@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive Florida teacher toolkit for writing better AI prompts, planning standards-aligned ELA, mathematics, and science lessons, and analyzing FAST PM assessment data.">
+  <title>Teacher AI Success | Florida Prompt Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b3b4a'/%3E%3Cpath d='M14 18h36v28H14z' fill='%23fff'/%3E%3Cpath d='M18 22h28v5H18zm0 10h17v4H18zm0 8h24v3H18z' fill='%23f2b84b'/%3E%3Ccircle cx='47' cy='43' r='10' fill='%232bb3a3'/%3E%3Cpath d='m43 43 3 3 6-7' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
+  <style>
+    :root { --ink:#15313a; --navy:#0b3b4a; --teal:#147f78; --mint:#dff5ef; --gold:#f2b84b; --gold-soft:#fff4d8; --sky:#e9f4f7; --paper:#fffdfa; --line:#dbe6e7; --muted:#5f7379; --danger:#a33a31; --shadow:0 18px 50px rgba(11,59,74,.11); --radius:18px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:linear-gradient(180deg,#edf7f7 0,#fffdfa 34rem); font-family:"DM Sans",sans-serif; font-size:16px; line-height:1.55; }
+    button,input,select,textarea { font:inherit; }
+    button { cursor:pointer; }
+    a { color:inherit; }
+    .skip { position:absolute; left:-9999px; top:1rem; z-index:20; background:white; padding:.75rem 1rem; }
+    .skip:focus { left:1rem; }
+    .topbar { background:var(--navy); color:#fff; padding:.65rem max(1rem,calc((100% - 1180px)/2)); font-size:.9rem; display:flex; justify-content:space-between; gap:1rem; }
+    .topbar span:last-child { color:#bde6de; }
+    header { max-width:1180px; margin:auto; padding:1.25rem 1.2rem .7rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .brand { display:flex; align-items:center; gap:.8rem; text-decoration:none; font-weight:800; letter-spacing:-.02em; }
+    .brandmark { width:46px; height:46px; border-radius:14px; display:grid; place-items:center; color:white; background:linear-gradient(145deg,var(--navy),var(--teal)); box-shadow:0 8px 20px rgba(11,59,74,.2); }
+    .brand small { display:block; font-weight:600; color:var(--teal); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; }
+    nav { display:flex; gap:.35rem; flex-wrap:wrap; }
+    nav a { padding:.55rem .7rem; border-radius:10px; text-decoration:none; color:#35515a; font-size:.92rem; font-weight:600; }
+    nav a:hover,nav a:focus { background:white; outline:none; box-shadow:0 0 0 2px var(--gold); }
+    main { max-width:1180px; margin:auto; padding:1rem 1.2rem 5rem; }
+    .intro { display:grid; grid-template-columns:1.2fr .8fr; gap:1.5rem; align-items:stretch; margin:1rem 0 1.5rem; }
+    .intro-copy { background:var(--navy); color:white; border-radius:28px; padding:clamp(1.6rem,4vw,3.5rem); position:relative; overflow:hidden; }
+    .intro-copy:after { content:""; position:absolute; width:270px; height:270px; border:48px solid rgba(43,179,163,.18); border-radius:50%; right:-105px; top:-120px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:.5rem; color:#bfece3; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; }
+    .eyebrow:before { content:""; width:28px; height:3px; background:var(--gold); border-radius:2px; }
+    h1,h2,h3 { font-family:"Fraunces",serif; line-height:1.08; letter-spacing:-.025em; }
+    h1 { font-size:clamp(2.2rem,5vw,4.4rem); max-width:760px; margin:.75rem 0 1rem; }
+    .intro p { max-width:700px; color:#d7e8ea; font-size:1.08rem; margin:0; }
+    .intro-card { background:white; border:1px solid var(--line); border-radius:28px; padding:1.45rem; box-shadow:var(--shadow); display:flex; flex-direction:column; justify-content:space-between; }
+    .intro-card h2 { margin:.1rem 0 .75rem; font-size:1.55rem; }
+    .path { display:grid; gap:.7rem; margin:1rem 0; }
+    .path div { display:grid; grid-template-columns:34px 1fr; gap:.7rem; align-items:center; padding:.65rem; border-radius:12px; background:#f6faf9; }
+    .path b { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--gold-soft); color:#815b0b; }
+    .privacy { display:flex; gap:.6rem; color:#5b696e; font-size:.82rem; border-top:1px solid var(--line); padding-top:1rem; }
+    .privacy strong { color:var(--danger); }
+    .workspace { display:grid; grid-template-columns:250px minmax(0,1fr); min-height:650px; background:white; border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--shadow); }
+    .side { background:#f5faf9; border-right:1px solid var(--line); padding:1.2rem; }
+    .side h2 { margin:.2rem 0 1rem; font-size:1.3rem; }
+    .tabs { display:grid; gap:.55rem; }
+    .tab { width:100%; border:1px solid transparent; background:transparent; text-align:left; padding:.85rem .8rem; border-radius:13px; color:#496168; font-weight:700; display:flex; gap:.7rem; align-items:center; }
+    .tab:hover { background:#e8f4f1; }
+    .tab.active { background:var(--navy); color:white; box-shadow:0 8px 18px rgba(11,59,74,.17); }
+    .tab-icon { width:28px; text-align:center; font-size:1.15rem; }
+    .side-note { margin-top:1.25rem; padding:1rem; background:var(--gold-soft); border-radius:14px; font-size:.82rem; color:#674e1c; }
+    .panel { padding:clamp(1.1rem,3vw,2.2rem); display:none; }
+    .panel.active { display:block; }
+    .panel-head { display:flex; justify-content:space-between; gap:1rem; align-items:start; margin-bottom:1.35rem; }
+    .panel-head h2 { margin:0 0 .35rem; font-size:clamp(1.65rem,3vw,2.25rem); }
+    .panel-head p { color:var(--muted); margin:0; max-width:680px; }
+    .step-pill { white-space:nowrap; background:var(--mint); color:#0c665f; font-size:.8rem; font-weight:800; padding:.45rem .7rem; border-radius:999px; }
+    .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    label { display:block; font-weight:700; font-size:.9rem; color:#2d4b53; margin-bottom:.4rem; }
+    .hint { display:block; font-size:.76rem; color:var(--muted); font-weight:500; margin-top:.25rem; }
+    input,select,textarea { width:100%; border:1px solid #cbdadb; background:white; border-radius:11px; padding:.72rem .78rem; color:var(--ink); }
+    textarea { min-height:104px; resize:vertical; }
+    input:focus,select:focus,textarea:focus { outline:3px solid rgba(242,184,75,.4); border-color:#a37417; }
+    .wide { grid-column:1/-1; }
+    .actions { display:flex; gap:.7rem; align-items:center; flex-wrap:wrap; margin:1.25rem 0; }
+    .primary,.secondary,.copy-btn { border:0; border-radius:11px; padding:.78rem 1.05rem; font-weight:800; }
+    .primary { background:var(--teal); color:white; box-shadow:0 8px 18px rgba(20,127,120,.2); }
+    .primary:hover { background:#0d6d67; }
+    .secondary { background:var(--sky); color:var(--navy); }
+    .copy-btn { background:var(--gold); color:#392a08; }
+    .output { display:none; border:1px solid #b8d7d3; background:#f5fbfa; border-radius:16px; padding:1rem; margin-top:1rem; }
+    .output.show { display:block; }
+    .output-top { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:.65rem; }
+    .output-top h3 { margin:0; font-size:1.1rem; }
+    .prompt-text { white-space:pre-wrap; background:white; border:1px solid var(--line); border-radius:11px; padding:1rem; max-height:380px; overflow:auto; color:#29464e; }
+    .data-entry { display:grid; grid-template-columns:1.15fr .85fr; gap:1rem; }
+    .upload-card { border:2px solid #90c9c1; background:linear-gradient(120deg,#eefaf7,#fff9e9); border-radius:18px; padding:1.1rem; margin-bottom:1rem; }
+    .upload-card h3 { margin:.05rem 0 .35rem; font-size:1.35rem; }
+    .upload-card > p { margin:.2rem 0 .9rem; color:#526970; }
+    .upload-grid { display:grid; grid-template-columns:1fr auto; gap:.8rem; align-items:end; }
+    .file-input { background:white; border:1px dashed var(--teal); padding:.85rem; }
+    .upload-status { margin:.75rem 0 0; padding:.7rem .8rem; background:white; border-radius:10px; color:#476068; font-size:.86rem; }
+    .upload-status.error { border-left:5px solid #c8584c; color:#7b2f29; }
+    .upload-status.ready { border-left:5px solid var(--teal); color:#155f59; }
+    .format-table { width:100%; border-collapse:collapse; margin:.8rem 0; font-size:.82rem; background:white; }
+    .format-table th,.format-table td { text-align:left; border-bottom:1px solid var(--line); padding:.5rem; }
+    .format-table th { color:var(--navy); }
+    .manual-entry { margin-top:1rem; border:1px solid var(--line); border-radius:14px; background:#fbfdfc; }
+    .manual-entry > summary { cursor:pointer; padding:.85rem 1rem; font-weight:800; color:var(--navy); }
+    .manual-entry[open] > summary { border-bottom:1px solid var(--line); }
+    .manual-body { padding:1rem; }
+    .analysis-scroll { max-height:420px; overflow:auto; }
+    .upload-results-table { width:100%; border-collapse:collapse; font-size:.8rem; margin-top:.75rem; }
+    .upload-results-table th,.upload-results-table td { border-bottom:1px solid var(--line); padding:.45rem; text-align:left; vertical-align:top; }
+    .upload-results-table th { position:sticky; top:0; background:#f4f8f8; color:#35515a; }
+    .upload-results-table .priority-row td { background:#fff0c7; border-color:#e0ae42; }
+    .grade-bar { display:grid; grid-template-columns:minmax(180px,260px) 1fr; gap:1rem; align-items:end; padding:1rem; margin-bottom:1rem; border:2px solid #b8d7d3; background:linear-gradient(100deg,#f0fbf8,#fff9e9); border-radius:15px; }
+    .grade-bar label { color:var(--navy); font-size:1rem; }
+    .grade-bar select { border:2px solid var(--teal); font-weight:800; background:white; }
+    .grade-bar p { margin:0 0 .25rem; color:#526970; font-size:.88rem; }
+    .student-list { display:grid; gap:.8rem; margin-top:1rem; }
+    .student-card { border:1px solid var(--line); background:white; border-radius:15px; padding:.9rem; box-shadow:0 5px 16px rgba(11,59,74,.06); }
+    .student-head { display:grid; grid-template-columns:1.25fr .55fr .55fr .55fr auto; gap:.6rem; align-items:end; }
+    .student-head input { padding:.55rem; }
+    .student-head label { font-size:.76rem; margin-bottom:.2rem; }
+    .category-grid { display:grid; gap:.55rem; margin-top:.8rem; }
+    .category-row { display:grid; grid-template-columns:minmax(165px,1fr) 150px minmax(190px,1.5fr); gap:.6rem; align-items:start; padding:.65rem; border-radius:11px; background:#f6faf9; }
+    .category-name { font-weight:800; font-size:.85rem; padding-top:.55rem; }
+    .category-status { padding:.52rem; font-weight:700; }
+    .benchmark-picker summary { cursor:pointer; font-size:.82rem; font-weight:800; color:var(--teal); padding:.52rem .6rem; border:1px solid #cbdadb; background:white; border-radius:9px; list-style-position:inside; }
+    .benchmark-options { display:grid; gap:.35rem; padding:.55rem; border:1px solid var(--line); border-top:0; background:white; border-radius:0 0 9px 9px; }
+    .benchmark-options label { display:flex; gap:.4rem; align-items:flex-start; margin:0; font-size:.75rem; line-height:1.3; font-weight:600; }
+    .benchmark-options input { width:auto; margin-top:.15rem; }
+    .category-summary { display:grid; gap:.55rem; margin:1rem 0; }
+    .category-summary-row { background:white; border:1px solid var(--line); border-radius:11px; padding:.7rem; }
+    .category-summary-row strong { display:block; margin-bottom:.25rem; }
+    .status-line { display:flex; flex-wrap:wrap; gap:.45rem; font-size:.78rem; }
+    .status-chip { padding:.25rem .45rem; border-radius:999px; background:#eef4f4; }
+    .benchmark-summary { font-size:.82rem; margin-top:.8rem; padding:.7rem; border-radius:10px; background:var(--gold-soft); }
+    .student-table { border-collapse:collapse; width:100%; font-size:.88rem; }
+    .student-table th,.student-table td { padding:.62rem .4rem; border-bottom:1px solid var(--line); text-align:left; }
+    .student-table th { color:#526970; font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; }
+    .student-table input { padding:.45rem; min-width:68px; }
+    .remove-row { border:0; background:transparent; color:#9d3b35; font-weight:800; padding:.45rem; }
+    .analysis { background:#f4f8f8; border-radius:15px; padding:1rem; min-height:250px; }
+    .analysis-column { display:grid; gap:.8rem; align-content:start; }
+    .export-box { border:2px solid #b8d7d3; background:#f0fbf8; border-radius:15px; padding:1rem; }
+    .export-box h3 { margin:0 0 .35rem; font-size:1.15rem; }
+    .export-box p { margin:.25rem 0 .8rem; color:#526970; font-size:.86rem; }
+    .export-box .primary { display:inline-block; text-decoration:none; }
+    .export-box[hidden] { display:none; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:.55rem; margin:.8rem 0; }
+    .stat { background:white; border:1px solid var(--line); border-radius:11px; padding:.7rem; }
+    .stat b { display:block; font-size:1.35rem; color:var(--teal); }
+    .groups { display:grid; gap:.55rem; margin-top:1rem; }
+    .group { border-left:5px solid; padding:.7rem .8rem; background:white; border-radius:8px; }
+    .group.urgent { border-color:#c8584c; }.group.strategic { border-color:#e3a62b; }.group.ready { border-color:#2a9a72; }
+    .group strong { display:block; }
+    .section { margin-top:3.5rem; }
+    .section-title { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1.1rem; }
+    .section-title h2 { font-size:clamp(1.8rem,4vw,2.6rem); margin:0; }
+    .section-title p { max-width:530px; color:var(--muted); margin:0; }
+    .filter-row { display:flex; flex-wrap:wrap; gap:.55rem; margin-bottom:1rem; }
+    .filter { border:1px solid var(--line); background:white; color:#466069; border-radius:999px; padding:.5rem .8rem; font-weight:700; }
+    .filter.active { background:var(--navy); color:white; border-color:var(--navy); }
+    .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .prompt-card { background:white; border:1px solid var(--line); border-radius:16px; padding:1.05rem; display:flex; flex-direction:column; min-height:330px; }
+    .prompt-card .tag { color:var(--teal); font-weight:800; font-size:.75rem; text-transform:uppercase; letter-spacing:.07em; }
+    .prompt-card h3 { margin:.45rem 0 .6rem; font-size:1.25rem; }
+    .prompt-card p { color:var(--muted); margin:0 0 .7rem; font-size:.91rem; }
+    .prompt-template { flex:1; min-height:180px; margin-bottom:.75rem; font-size:.86rem; line-height:1.45; background:#f8fbfa; }
+    .card-action { border:0; background:var(--sky); color:var(--navy); border-radius:10px; padding:.65rem; font-weight:800; width:100%; }
+    .card-action:hover { background:var(--mint); }
+    .standards-picker { border:1px solid #b8d7d3; border-radius:14px; padding:1rem; background:#f6fbfa; }
+    .standards-picker > strong { display:block; margin-bottom:.55rem; color:var(--navy); }
+    .standards-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+    .standard-preview { margin:.7rem 0 0; padding:.7rem; border-radius:10px; background:white; border:1px solid var(--line); color:#35515a; font-size:.84rem; }
+    .source-note { display:block; margin-top:.55rem; font-size:.76rem; color:var(--muted); }
+    .source-note a { color:var(--teal); font-weight:700; }
+    .e3-note { border-left:5px solid var(--gold); background:var(--gold-soft); padding:.8rem 1rem; border-radius:9px; color:#614a1b; font-size:.86rem; }
+    .learn-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .lesson { border-top:5px solid var(--gold); background:white; padding:1.2rem; border-radius:4px 4px 16px 16px; box-shadow:0 10px 28px rgba(11,59,74,.07); }
+    .lesson:nth-child(2) { border-color:var(--teal); }.lesson:nth-child(3) { border-color:var(--navy); }
+    .lesson h3 { margin:.3rem 0 .5rem; }
+    .lesson ul { padding-left:1.2rem; margin:.6rem 0 0; color:#526970; }
+    .principle { margin-top:3.5rem; display:grid; grid-template-columns:.8fr 1.2fr; background:var(--navy); color:white; border-radius:24px; overflow:hidden; }
+    .principle h2 { font-size:2rem; margin:.2rem 0 1rem; }
+    .principle > div { padding:clamp(1.4rem,3vw,2.4rem); }
+    .principle-list { background:rgba(255,255,255,.07); display:grid; gap:.75rem; }
+    .principle-list div { display:grid; grid-template-columns:38px 1fr; align-items:start; gap:.7rem; }
+    .principle-list b:first-child { width:38px; height:38px; background:var(--gold); color:#342708; border-radius:50%; display:grid; place-items:center; }
+    footer { max-width:1180px; margin:auto; padding:2rem 1.2rem; border-top:1px solid var(--line); color:#66797f; font-size:.86rem; display:flex; justify-content:space-between; gap:1rem; }
+    .toast { position:fixed; right:1.2rem; bottom:1.2rem; background:var(--navy); color:white; padding:.8rem 1rem; border-radius:12px; box-shadow:var(--shadow); transform:translateY(140%); transition:.25s; z-index:50; }
+    .toast.show { transform:translateY(0); }
+    @media (max-width:900px) { .intro,.data-entry,.principle { grid-template-columns:1fr; }.workspace { grid-template-columns:1fr; }.side { border-right:0; border-bottom:1px solid var(--line); }.tabs { grid-template-columns:repeat(2,1fr); }.side-note { display:none; }.cards,.learn-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:650px) { .topbar span:last-child,nav { display:none; }.intro-copy { border-radius:20px; }.form-grid,.cards,.learn-grid,.grade-bar,.student-head,.category-row,.standards-grid,.upload-grid { grid-template-columns:1fr; }.tabs { display:flex; overflow:auto; padding-bottom:.3rem; }.tab { min-width:165px; }.panel-head,.section-title,footer { flex-direction:column; align-items:flex-start; }.student-table { display:block; overflow-x:auto; }.stats { grid-template-columns:1fr; }.output-top { align-items:flex-start; flex-direction:column; }.category-name { padding-top:0; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to prompt builder</a>
+  <div class="topbar"><span>Florida classroom tools • ELA, mathematics &amp; science standards • FAST PM support</span><span>Built for educators, not AI experts</span></div>
+  <header>
+    <a class="brand" href="#"><span class="brandmark" aria-hidden="true">AI</span><span>Teacher AI Success<small>Florida Prompt Lab</small></span></a>
+    <nav aria-label="Main navigation"><a href="#workspace">Build a Prompt</a><a href="#library">Prompt Library</a><a href="#learn">Learn</a><a href="#responsible-use">Responsible Use</a></nav>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <span class="eyebrow">Plan smarter. Keep teacher judgment.</span>
+        <h1 id="page-title">Turn classroom needs into stronger AI prompts.</h1>
+        <p>Build ready-to-use prompts for standards-aligned lessons, FAST progress-monitoring analysis, targeted intervention, and classroom assessment—one clear step at a time.</p>
+      </div>
+      <aside class="intro-card">
+        <div><h2>Your 3-step workflow</h2><div class="path"><div><b>1</b><span>Choose the teacher task</span></div><div><b>2</b><span>Add context and constraints</span></div><div><b>3</b><span>Generate, review, and refine</span></div></div></div>
+        <div class="privacy"><span aria-hidden="true">🛡️</span><span><strong>Protect student privacy:</strong> use Student A, B, C—not names, IDs, IEP details, or other personally identifiable information.</span></div>
+      </aside>
+    </section>
+
+    <section class="workspace" id="workspace" aria-label="Interactive prompt workspace">
+      <aside class="side"><h2>Choose a task</h2><div class="tabs" role="tablist">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="lesson-panel" data-tab="lesson"><span class="tab-icon">✦</span>Lesson Plan</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="data-panel" data-tab="data"><span class="tab-icon">▥</span>FAST PM Data</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="standards-panel" data-tab="standards"><span class="tab-icon">◎</span>Target Standards</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="assessment-panel" data-tab="assessment"><span class="tab-icon">✓</span>Assessment</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="e3-panel" data-tab="e3"><span class="tab-icon">◇</span>E3 Lesson Check</button>
+      </div><div class="side-note"><strong>Teacher check:</strong> AI creates a draft. You verify the standard, rigor, accommodations, facts, and fit for your students.</div></aside>
+
+      <div class="panel active" id="lesson-panel" role="tabpanel" data-panel="lesson">
+        <div class="panel-head"><div><h2>Lesson Plan Prompt Builder</h2><p>Give the AI enough classroom context to produce a usable, standards-aligned lesson rather than a generic outline.</p></div><span class="step-pill">Prompt Builder</span></div>
+        <div class="form-grid">
+          <div><label for="lp-grade">Grade or course</label><input id="lp-grade" placeholder="Example: Grade 8 ELA"></div>
+          <div><label for="lp-time">Lesson length</label><select id="lp-time"><option>50 minutes</option><option>75 minutes</option><option>90 minutes</option><option>Two class periods</option></select></div>
+          <div class="wide standards-picker" data-standard-target="lp-standard"><strong>Find a Florida academic benchmark</strong><div class="standards-grid"><div><label>Subject</label><select class="std-subject"></select></div><div><label>Grade/course</label><select class="std-grade"></select></div><div><label>Strand</label><select class="std-strand"></select></div><div><label>Benchmark</label><select class="std-benchmark"></select></div></div><p class="standard-preview">Choose a benchmark to insert its code and description below.</p><span class="source-note">Official Florida B.E.S.T. ELA and Mathematics standards plus Florida Science standards. Confirm current wording in <a href="https://www.cpalms.org/Public/downloads/" target="_blank" rel="noopener">CPALMS</a>.</span></div>
+          <div class="wide"><label for="lp-standard">Selected benchmark(s)</label><input id="lp-standard" placeholder="Choose above or enter a code and full description"></div>
+          <div><label for="lp-objective">Learning objective</label><input id="lp-objective" placeholder="Students will be able to…"></div>
+          <div><label for="lp-level">Student readiness</label><select id="lp-level"><option>Mixed readiness</option><option>Intensive support / below grade level</option><option>On grade level</option><option>Advanced / accelerated</option></select></div>
+          <div class="wide"><label for="lp-context">Topic, text, or classroom context</label><textarea id="lp-context" placeholder="Include the text/topic, what students already know, and any materials you want used."></textarea></div>
+          <div><label for="lp-supports">Supports to include</label><select id="lp-supports"><option>Chunking, modeling, and sentence stems</option><option>ESOL language supports</option><option>ESE/504-accessible options</option><option>Enrichment and extension</option><option>Universal Design for Learning options</option></select></div>
+          <div><label for="lp-check">Evidence of learning</label><select id="lp-check"><option>Bell ringer + checks for understanding + exit ticket</option><option>Discussion + written response</option><option>Collaborative task + rubric</option><option>Short quiz + reteach plan</option></select></div>
+          <div class="wide"><label for="lp-dok">Webb’s Depth of Knowledge progression</label><select id="lp-dok"><option>DOK 1 → DOK 2 → DOK 3 progression</option><option>Primarily DOK 2 with a DOK 3 mastery task</option><option>DOK 2 → DOK 3 → DOK 4 extended application</option><option>Recommend the best DOK progression for this benchmark</option></select><span class="hint">DOK measures the complexity of thinking—not how difficult a question feels.</span></div>
+          <div class="wide"><label for="lp-e3">E3-informed planning depth</label><select id="lp-e3"><option>Full E3-informed plan (recommended)</option><option>Core classroom evidence only</option><option>Quick lesson essentials</option></select><span class="hint">Uses the evaluation rubric’s instructional themes as a planning checklist. It does not score or predict an evaluation.</span></div>
+        </div>
+        <div class="actions"><button class="primary" data-generate="lesson">Generate Lesson Prompt</button><button class="secondary" data-example="lesson">Fill Example</button></div>
+        <div class="output" id="lesson-output" aria-live="polite"><div class="output-top"><h3>Your ready-to-use prompt</h3><button class="copy-btn" data-copy="lesson-output-text">Copy Prompt</button></div><div class="prompt-text" id="lesson-output-text"></div></div>
+      </div>
+
+      <div class="panel" id="data-panel" role="tabpanel" data-panel="data">
+        <div class="panel-head"><div><h2>FAST PM Data Analysis</h2><p>Choose one simple workflow: analyze one PM file, or compare two PM CSV files.</p></div><div class="actions"><span class="step-pill">Processed in your browser</span><button class="secondary" id="clear-fast-data" type="button">Clear Uploaded Data</button></div></div>
+        <section class="upload-card" aria-labelledby="upload-heading"><h3 id="upload-heading">1. Analyze one PM dataset</h3><p>Upload one Excel or CSV file to see results by student number and benchmark/substandard.</p><label class="file-input" for="fast-upload"><span>Choose one PM file</span><input id="fast-upload" type="file" accept=".xlsx,.xls,.csv"></label><div class="actions"><button class="primary" id="analyze-upload" disabled>Analyze This PM Data</button></div><div class="upload-status" id="upload-status" role="status">No file selected. Maximum file size: 10 MB.</div></section>
+        <section class="upload-card" aria-labelledby="compare-heading"><h3 id="compare-heading">2. Compare two PM datasets</h3><p>Upload two CSV files with the same student-number and benchmark format. Select which PM window each file represents.</p><div class="upload-grid"><div><label for="compare-label-a">First dataset</label><select id="compare-label-a"><option>PM1</option><option>PM2</option><option>PM3</option></select><label class="file-input" for="compare-upload-a"><span>Choose first CSV</span><input id="compare-upload-a" type="file" accept=".csv,text/csv"></label></div><div><label for="compare-label-b">Second dataset</label><select id="compare-label-b"><option>PM1</option><option selected>PM2</option><option>PM3</option></select><label class="file-input" for="compare-upload-b"><span>Choose second CSV</span><input id="compare-upload-b" type="file" accept=".csv,text/csv"></label></div></div><div class="actions"><button class="primary" id="analyze-compare" disabled>Compare Both PM Files</button></div><div class="upload-status" id="compare-status" role="status">Choose both CSV files to compare.</div></section>
+        <p class="hint"><strong>Your FAST export works as-is:</strong> the site reads “Anonymous Code” as <strong>Student Number</strong>, recognizes the Grade 10 FAST ELA Reading Achievement Level and the three reporting-category performance columns, then analyzes each numbered Benchmark, Points Earned, and Points Possible block. Both comparison files may keep this same structure. Questions missed by 45% or more are highlighted. ELL data is reported only as anonymous class-level totals and percentages; individual students are never labeled ELL. Section 504 data is ignored.</p>
+        <div class="analysis-column"><div class="analysis" id="analysis-box"><h3 style="margin-top:0">Analysis will appear here</h3><p>Upload one file above, or choose two CSV files to compare.</p></div><div class="export-box" id="spreadsheet-export" hidden><h3>Download teacher-ready reports</h3><p id="spreadsheet-note">Choose a report below. Your download should begin immediately.</p><div class="actions"><button class="primary" id="create-spreadsheet">Download Excel Workbook</button><button class="secondary" id="create-pdf">Download Printable PDF</button></div><div class="actions"><a class="primary" id="download-spreadsheet" href="#" download target="_blank" rel="noopener" hidden>Excel did not start? Click here</a><a class="secondary" id="download-pdf" href="#" download target="_blank" rel="noopener" hidden>PDF did not start? Click here</a></div><span class="hint" id="spreadsheet-sheets"></span></div></div>
+        <div hidden aria-hidden="true"><select id="data-grade"><option selected>8</option></select><select id="data-window"><option>PM data</option></select><select id="data-dok"><option>DOK 2 → DOK 3</option></select><input id="data-benchmarks"><div id="student-rows"></div><button id="add-row"></button><button id="analyze-data"></button></div>
+      </div>
+
+      <div class="panel" id="standards-panel" role="tabpanel" data-panel="standards">
+        <div class="panel-head"><div><h2>Standards Intervention Builder</h2><p>Translate a below-standard result into a focused reteach sequence with a measurable mastery check.</p></div><span class="step-pill">Targeted Reteach</span></div>
+        <div class="form-grid">
+          <div><label for="st-grade">Grade or course</label><input id="st-grade" placeholder="Example: Grade 8 ELA"></div>
+          <div><label for="st-group">Group profile</label><select id="st-group"><option>Students one level below proficiency</option><option>Lowest quartile / intensive support</option><option>Mixed gap group</option><option>Students near proficiency</option></select></div>
+          <div class="wide standards-picker" data-standard-target="st-standard"><strong>Find a Florida academic benchmark</strong><div class="standards-grid"><div><label>Subject</label><select class="std-subject"></select></div><div><label>Grade/course</label><select class="std-grade"></select></div><div><label>Strand</label><select class="std-strand"></select></div><div><label>Benchmark</label><select class="std-benchmark"></select></div></div><p class="standard-preview">Choose a benchmark to insert its code and description below.</p></div>
+          <div class="wide"><label for="st-standard">Exact benchmark</label><input id="st-standard" placeholder="Choose above or enter the benchmark code and full description"></div>
+          <div><label for="st-evidence">Evidence of the gap</label><textarea id="st-evidence" placeholder="Example: 4 of 12 students selected evidence but could not explain how it supports the claim."></textarea></div>
+          <div><label for="st-misconception">Likely misconception</label><textarea id="st-misconception" placeholder="What are students confusing or skipping?"></textarea></div>
+          <div><label for="st-days">Reteach window</label><select id="st-days"><option>One 20-minute small group</option><option>Three 20-minute small groups</option><option>One full class period</option><option>Five-day intervention cycle</option></select></div>
+          <div><label for="st-product">Mastery evidence</label><select id="st-product"><option>3-item standards check</option><option>Short constructed response</option><option>Teacher conference checklist</option><option>Exit ticket and error analysis</option></select></div>
+          <div class="wide"><label for="st-dok">Webb’s DOK reteach progression</label><select id="st-dok"><option>DOK 1 prerequisite check → DOK 2 application → DOK 3 reasoning</option><option>DOK 2 guided practice → DOK 3 independent transfer</option><option>Recommend the best progression for this benchmark and misconception</option></select><span class="hint">The reteach may begin with prerequisite knowledge, but mastery evidence should match the benchmark’s intended thinking.</span></div>
+        </div>
+        <div class="actions"><button class="primary" data-generate="standards">Generate Intervention Prompt</button><button class="secondary" data-example="standards">Fill Example</button></div>
+        <div class="output" id="standards-output" aria-live="polite"><div class="output-top"><h3>Your intervention prompt</h3><button class="copy-btn" data-copy="standards-output-text">Copy Prompt</button></div><div class="prompt-text" id="standards-output-text"></div></div>
+      </div>
+
+      <div class="panel" id="assessment-panel" role="tabpanel" data-panel="assessment">
+        <div class="panel-head"><div><h2>Assessment Prompt Builder</h2><p>Create checks that match the standard’s cognitive demand and include an answer key, rationale, and reteach guidance.</p></div><span class="step-pill">Rigor Check</span></div>
+        <div class="form-grid">
+          <div><label for="as-grade">Grade/course</label><input id="as-grade" placeholder="Example: Personal Finance, Grades 9–12"></div>
+          <div><label for="as-count">Number of items</label><select id="as-count"><option>5 items</option><option>10 items</option><option>15 items</option><option>20 items</option></select></div>
+          <div class="wide standards-picker" data-standard-target="as-standard"><strong>Find a Florida academic benchmark</strong><div class="standards-grid"><div><label>Subject</label><select class="std-subject"></select></div><div><label>Grade/course</label><select class="std-grade"></select></div><div><label>Strand</label><select class="std-strand"></select></div><div><label>Benchmark</label><select class="std-benchmark"></select></div></div><p class="standard-preview">Choose a benchmark to insert its code and description below.</p></div>
+          <div class="wide"><label for="as-standard">Standard(s)</label><input id="as-standard" placeholder="Choose above or enter a code and description"></div>
+          <div><label for="as-types">Item mix</label><select id="as-types"><option>Multiple choice + short response</option><option>FAST-style text-dependent items</option><option>Scenario-based application</option><option>Exit ticket</option></select></div>
+          <div><label for="as-dok">Cognitive demand</label><select id="as-dok"><option>Mix of DOK 1–3</option><option>Mostly DOK 2</option><option>DOK 2–3 only</option><option>Match benchmark language</option></select></div>
+          <div class="wide"><label for="as-content">Content, passage, or unit context</label><textarea id="as-content" placeholder="Describe the taught content. For copyrighted text, provide a short excerpt you are allowed to use or ask for an original passage."></textarea></div>
+        </div>
+        <div class="actions"><button class="primary" data-generate="assessment">Generate Assessment Prompt</button><button class="secondary" data-example="assessment">Fill Example</button></div>
+        <div class="output" id="assessment-output" aria-live="polite"><div class="output-top"><h3>Your assessment prompt</h3><button class="copy-btn" data-copy="assessment-output-text">Copy Prompt</button></div><div class="prompt-text" id="assessment-output-text"></div></div>
+      </div>
+
+      <div class="panel" id="e3-panel" role="tabpanel" data-panel="e3">
+        <div class="panel-head"><div><h2>E3-Informed Lesson Check</h2><p>Turn a draft into a shorter, stronger plan using the rubric’s instructional themes—without entering evaluation scores, comments, names, or other personal information.</p></div><span class="step-pill">Planning Aid</span></div>
+        <div class="e3-note"><strong>Privacy:</strong> paste only the lesson plan. Do not paste an evaluation form, evaluator comments, teacher names, student names, or confidential records.</div>
+        <div class="form-grid" style="margin-top:1rem">
+          <div><label for="e3-grade">Grade or course</label><input id="e3-grade" placeholder="Example: Grade 10 ELA"></div>
+          <div><label for="e3-time">Planning time available</label><select id="e3-time"><option>10 minutes — top priorities only</option><option>20 minutes — focused revision</option><option>30 minutes — full evidence check</option></select></div>
+          <div class="wide standards-picker" data-standard-target="e3-standard"><strong>Find a Florida academic benchmark</strong><div class="standards-grid"><div><label>Subject</label><select class="std-subject"></select></div><div><label>Grade/course</label><select class="std-grade"></select></div><div><label>Strand</label><select class="std-strand"></select></div><div><label>Benchmark</label><select class="std-benchmark"></select></div></div><p class="standard-preview">Choose a benchmark to insert its code and description below.</p></div>
+          <div class="wide"><label for="e3-standard">Selected benchmark</label><input id="e3-standard" placeholder="Choose above or enter the standard"></div>
+          <div class="wide"><label for="e3-draft">Paste your draft lesson plan</label><textarea id="e3-draft" style="min-height:190px" placeholder="Paste the lesson only. Remove all personal and confidential information first."></textarea></div>
+        </div>
+        <div class="actions"><button class="primary" data-generate="e3">Generate E3 Lesson-Check Prompt</button></div>
+        <div class="output" id="e3-output" aria-live="polite"><div class="output-top"><h3>Your E3-informed review prompt</h3><button class="copy-btn" data-copy="e3-output-text">Copy Prompt</button></div><div class="prompt-text" id="e3-output-text"></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="library"><div class="section-title"><h2>Teacher Prompt Library</h2><p>Start with a proven structure, then replace the bracketed information with your classroom context. Every template asks AI to identify and explain the applicable Florida B.E.S.T. benchmark.</p></div>
+      <div class="filter-row" aria-label="Filter prompt library"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="planning">Planning</button><button class="filter" data-filter="differentiation">Differentiation</button><button class="filter" data-filter="models">Teaching Models</button><button class="filter" data-filter="data">Data</button><button class="filter" data-filter="intervention">Reteach &amp; Small Groups</button><button class="filter" data-filter="feedback">Assessment &amp; Feedback</button><button class="filter" data-filter="e3">E3</button></div>
+      <div class="cards" id="prompt-cards"></div>
+    </section>
+
+    <section class="section" id="learn"><div class="section-title"><h2>Prompting that produces usable work</h2><p>A strong teacher prompt is less about clever wording and more about complete instructional context.</p></div>
+      <div class="learn-grid">
+        <article class="lesson"><span class="tag">01 • Context</span><h3>Tell AI who and what</h3><ul><li>Grade, course, and time available</li><li>Exact benchmark and learning target</li><li>What students already know</li></ul></article>
+        <article class="lesson"><span class="tag">02 • Evidence</span><h3>Show the learning need</h3><ul><li>Anonymous performance patterns</li><li>Common errors or misconceptions</li><li>Student work evidence—without names</li></ul></article>
+        <article class="lesson"><span class="tag">03 • Constraints</span><h3>Define a useful output</h3><ul><li>Materials, timing, and grouping</li><li>Scaffolds and accessibility needs</li><li>Answer key and mastery criteria</li></ul></article>
+      </div>
+    </section>
+
+    <section class="principle" id="responsible-use"><div><span class="eyebrow">Responsible AI use</span><h2>The teacher stays in the driver’s seat.</h2><p>Use AI to speed up drafting, comparison, and pattern-finding. Your professional judgment determines what is accurate, appropriate, equitable, and ready for students.</p></div><div class="principle-list">
+      <div><b>1</b><span><strong>De-identify data.</strong><br>Never enter student names, IDs, birth dates, disability labels, or confidential records.</span></div>
+      <div><b>2</b><span><strong>Verify Florida requirements.</strong><br>Confirm benchmark wording, FAST achievement ranges, and district expectations using current official sources.</span></div>
+      <div><b>3</b><span><strong>Check rigor and bias.</strong><br>Review reading level, cultural assumptions, accessibility, correct answers, and alignment before use.</span></div>
+      <div><b>4</b><span><strong>Keep evidence in the loop.</strong><br>Use formative checks to decide whether to reteach, regroup, extend, or revise the AI-generated draft.</span></div>
+    </div></section>
+  </main>
+  <footer><span>Teacher AI Success • Florida Prompt Lab</span><span>Planning support only—always follow school, district, and state policies.</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">Prompt copied</div>
+  <script src="standards-part-1.js"></script>
+  <script src="standards-part-2.js"></script>
+  <script src="standards-part-3.js"></script>
+  <script src="standards-part-4.js"></script>
+  <script src="standards-part-5.js"></script>
+  <script src="standards-part-6.js"></script>
+  <script src="standards-part-7.js"></script>
+  <script src="standards-part-8.js"></script>
+  <script src="standards-part-9.js"></script>
+  <script src="standards-part-10.js"></script>
+  <script src="standards-part-11.js"></script>
+  <script src="standards-part-12.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const value = id => $(id)?.value.trim() || "[add this information]";
+    function showTab(name){ document.querySelectorAll('.tab').forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('active',on);b.setAttribute('aria-selected',on)});document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name)); }
+    document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+    const gradeLabels={K:'Kindergarten','1':'Grade 1','2':'Grade 2','3':'Grade 3','4':'Grade 4','5':'Grade 5','6':'Grade 6','7':'Grade 7','8':'Grade 8','9':'Grade 9','10':'Grade 10','11':'Grade 11','12':'Grade 12','612':'Grades 6–12','912':'Grades 9–12 / high-school courses','K12':'K–12 expectations'};
+    const strandLabels={F:'Foundations',R:'Reading',C:'Communication',V:'Vocabulary',EE:'ELA Expectations',NSO:'Number Sense & Operations',FR:'Fractions',AR:'Algebraic Reasoning',FL:'Financial Literacy',M:'Measurement',GR:'Geometric Reasoning',T:'Trigonometry',DP:'Data Analysis & Probability',LT:'Logic & Theory',MTR:'Mathematical Thinking & Reasoning',N:'Nature of Science',E:'Earth & Space Science',P:'Physical Science',L:'Life Science'};
+    function optionList(select,values,labeler,placeholder){select.innerHTML=`<option value="">${htmlEscape(placeholder)}</option>`+values.map(v=>`<option value="${htmlEscape(v)}">${htmlEscape(labeler(v))}</option>`).join('')}
+    function initStandardPickers(){const data=window.FL_BEST_STANDARDS||[];document.querySelectorAll('.standards-picker').forEach(box=>{const subject=box.querySelector('.std-subject'),grade=box.querySelector('.std-grade'),strand=box.querySelector('.std-strand'),benchmark=box.querySelector('.std-benchmark'),preview=box.querySelector('.standard-preview'),target=$(box.dataset.standardTarget);const subjects=[...new Set(data.map(x=>x.subject))];const sourceGrade=()=>{const exact=data.some(x=>x.subject===subject.value&&x.grade===grade.value);return exact?grade.value:(['9','10','11','12'].includes(grade.value)&&data.some(x=>x.subject===subject.value&&x.grade==='912')?'912':grade.value)};optionList(subject,subjects,v=>v,'Choose subject');const refreshGrades=()=>{const raw=[...new Set(data.filter(x=>x.subject===subject.value).map(x=>x.grade))],values=[...new Set(raw.flatMap(v=>v==='912'?['9','10','11','12']:[v]))].sort((a,b)=>{const order=x=>x==='K'?-1:x==='K12'?99:x==='612'?60:Number(x);return order(a)-order(b)}),usesBand=raw.includes('912');optionList(grade,values,v=>usesBand&&['9','10','11','12'].includes(v)?`Grade ${v} — high-school course standards`:(gradeLabels[v]||v),'Choose grade/course');optionList(strand,[],v=>v,'Choose strand');optionList(benchmark,[],v=>v,'Choose benchmark');preview.textContent='Choose a benchmark to insert its code and description below.'};const refreshStrands=()=>{const g=sourceGrade(),values=[...new Set(data.filter(x=>x.subject===subject.value&&x.grade===g).map(x=>x.strand))].sort();optionList(strand,values,v=>strandLabels[v]||v,'Choose strand');optionList(benchmark,[],v=>v,'Choose benchmark');preview.textContent=g==='912'?`Grade ${grade.value} selected. Florida identifies these as ${subject.value==='Science'?'SC.912':'MA.912'} high-school course-band standards; verify the subset assigned to the course.`:'Choose a strand, then select a benchmark.'};const refreshBenchmarks=()=>{const g=sourceGrade(),rows=data.filter(x=>x.subject===subject.value&&x.grade===g&&x.strand===strand.value).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));benchmark.innerHTML='<option value="">Choose benchmark</option>'+rows.map((x,i)=>`<option value="${i}">${htmlEscape(x.code)} — ${htmlEscape(x.description)}</option>`).join('');benchmark._rows=rows};subject.addEventListener('change',refreshGrades);grade.addEventListener('change',refreshStrands);strand.addEventListener('change',refreshBenchmarks);benchmark.addEventListener('change',()=>{const row=benchmark._rows?.[Number(benchmark.value)];if(!row)return;const full=`${row.code} — ${row.description}`;target.value=full;preview.innerHTML=`<strong>${htmlEscape(row.code)}</strong><br>${htmlEscape(row.description)}`});if(subjects.length){subject.value=subjects[0];refreshGrades()}})}
+    initStandardPickers();
+    const builders = {
+      lesson:()=>`Act as an experienced Florida ${value('lp-grade')} teacher and instructional coach. Create a complete ${value('lp-time')} lesson aligned to ${value('lp-standard')}.
+
+LEARNING GOAL
+${value('lp-objective')}
+
+CLASSROOM CONTEXT
+${value('lp-context')}
+Student readiness: ${value('lp-level')}
+
+REQUIREMENTS
+• Begin with a student-friendly learning target and success criteria.
+• Organize the lesson by minutes: opening, explicit instruction/modeling, guided practice, collaborative or independent application, and closure.
+• Include ${value('lp-supports')} without reducing the benchmark’s intended rigor.
+• Include ${value('lp-check')} and explain what evidence the teacher should look for.
+• Use this Webb’s Depth of Knowledge progression: ${value('lp-dok')}. Label every major question and student task with its DOK level, explain why the level fits, and show how the thinking advances—not merely how the task becomes harder.
+• Anticipate two likely misconceptions and give a precise teacher response for each.
+• List materials, teacher moves, student actions, and the expected student product.
+• Provide an extension and a brief reteach option.
+• Do not invent or paraphrase the Florida benchmark. If the benchmark information is incomplete, flag it for teacher verification.
+
+E3-INFORMED PLANNING DEPTH
+${value('lp-e3')}
+Use the following instructional evidence areas as a quiet planning checklist: positive learning environment and high expectations; efficient routines and purposeful pacing; standards-aligned sequencing and clear learning intentions; modeling, think-alouds, literacy strategies, and academic vocabulary; data-driven differentiation, scaffolds, ELL/ESOL and ESE/504 access, remediation, and extension; student thinking, discourse, productive struggle, and engagement; purposeful technology; formative and summative evidence; student self-monitoring; descriptive feedback tied to success criteria with time to apply it; teacher reflection and collaboration; ethical, equitable, privacy-conscious practice; and family connection only when it genuinely fits the lesson. Do not score the teacher or claim this is an official evaluation.
+
+Format the response as a classroom-ready lesson plan with a timing table, then a separate teacher verification checklist.`,
+      standards:()=>`Act as a Florida standards-based intervention specialist. Design ${value('st-days')} for ${value('st-grade')} focused only on this Florida benchmark:
+${value('st-standard')}
+
+STUDENT GROUP
+${value('st-group')}
+
+EVIDENCE OF THE GAP
+${value('st-evidence')}
+
+LIKELY MISCONCEPTION
+${value('st-misconception')}
+
+WEBB’S DEPTH OF KNOWLEDGE
+${value('st-dok')}
+
+Create a targeted sequence that:
+1. States the prerequisite skill and the smallest teachable skill gap.
+2. Uses an explicit “I do, we do, you do” progression with teacher think-aloud language.
+3. Includes one worked example, one non-example, guided questions, and sentence frames where useful.
+4. Labels each teacher question and student task DOK 1, 2, 3, or 4, explains the required thinking, and deliberately moves students toward the benchmark’s intended DOK.
+5. Keeps the cognitive demand of the benchmark intact; scaffolds access rather than replacing reasoning with recall.
+6. Ends with ${value('st-product')} at the benchmark’s intended DOK and an objective mastery rule.
+7. Gives next steps for students who show mastery, partial mastery, or no mastery.
+
+Do not assign labels or diagnose students. Note any benchmark language that the teacher should verify against the current Florida B.E.S.T. standards.`,
+      assessment:()=>`Act as an expert Florida classroom assessment designer. Create ${value('as-count')} for ${value('as-grade')} aligned to:
+${value('as-standard')}
+
+CONTEXT
+${value('as-content')}
+
+ASSESSMENT REQUIREMENTS
+• Item mix: ${value('as-types')}.
+• Cognitive demand: ${value('as-dok')}.
+• Match each item to the specific part of the standard it measures.
+• Avoid trick questions, unnecessary reading load, and answer-choice clues.
+• Include clear directions and accessible formatting.
+• Provide a complete answer key, rationale for every answer, DOK label, and the misconception each distractor may reveal.
+• End with a results-to-action table: score pattern, likely need, and suggested reteach response.
+
+Before writing the items, flag any missing information needed for valid alignment. Do not claim the items are official FAST questions.`,
+      e3:()=>`Act as a supportive instructional coach. Review the lesson draft for ${value('e3-grade')} aligned to ${value('e3-standard')}. The teacher has ${value('e3-time')} to revise it.
+
+LESSON DRAFT
+${value('e3-draft')}
+
+Use these E3-informed planning areas only as a non-evaluative checklist: learning environment and high expectations; routines, transitions, and pacing; standards-aligned design and clear success criteria; modeling, literacy strategies, and academic vocabulary; differentiation and scaffolding for readiness, ELL/ESOL, ESE/504, remediation, and extension; student engagement, discourse, productive struggle, and cognitive demand; purposeful technology; assessment for and of learning; student self-monitoring; descriptive feedback and time to apply it; teacher reflection/collaboration; ethical and equitable practice; and family connection when appropriate.
+
+Return:
+1. A compact table with Area | Evidence already present | Missing or unclear | Smallest useful revision.
+2. The top three revisions only, ordered by likely impact on student learning.
+3. A “Ready as-is” list so the teacher does not rewrite strong parts.
+4. An “Add before teaching” checklist that fits the available planning time.
+5. One improved lesson segment showing exactly how to apply the highest-priority change.
+
+Preserve the teacher’s voice and realistic timing. Do not score the teacher, predict an evaluation rating, or claim this is an official district review. Do not ask for or reproduce personal evaluation information.`,
+    };
+    function displayPrompt(type,text){ if(type==='data'){text+=`\n\nWEBB’S DEPTH OF KNOWLEDGE FOR SMALL GROUPS\nUse this progression: ${value('data-dok')}. For every proposed small group, label the questions, practice tasks, and mastery check with DOK 2, 3, or 4; explain the thinking students must demonstrate; and show how the sequence advances toward the benchmark’s intended cognitive demand. Add a DOK Level column to the two-week progress-monitoring table. Remember that DOK describes complexity of thinking, not difficulty.`;prepareSpreadsheetExport(getRows())} const target=$(type+'-output-text'); target.textContent=text; $(type+'-output').classList.add('show'); $(type+'-output').scrollIntoView({behavior:'smooth',block:'nearest'}); return text; }
+    document.querySelectorAll('[data-generate]').forEach(b=>b.addEventListener('click',()=>displayPrompt(b.dataset.generate,builders[b.dataset.generate]())));
+    const examples={lesson:{'lp-grade':'Grade 8 ELA','lp-standard':'ELA.8.R.2.4 — Track the development of an argument, identifying the types of reasoning used','lp-objective':'Students will identify a claim, supporting evidence, and explain how the reasoning connects the evidence to the claim.','lp-context':'Students can identify a claim and evidence but often summarize the evidence instead of explaining its impact.'},standards:{'st-grade':'Grade 8 ELA','st-standard':'ELA.8.R.2.4 — Track the development of an argument, identifying the types of reasoning used','st-evidence':'On a 5-item check, 8 of 12 students identified relevant evidence, but only 3 explained how it supported the claim.','st-misconception':'Students think repeating or summarizing evidence is the same as explaining the evidence-to-claim connection.'},assessment:{'as-grade':'Personal Finance, Grades 9–12','as-standard':'SS.912.FL.3.11 — Explain the rights and responsibilities of parties to a contract','as-content':'Students studied contract terms, APR, fees, borrower responsibilities, cancellation clauses, and consequences of default.'}};
+    document.querySelectorAll('[data-example]').forEach(b=>b.addEventListener('click',()=>{Object.entries(examples[b.dataset.example]).forEach(([id,v])=>$(id).value=v)}));
+    async function copyOutputById(id){ const text=$(id).textContent; try{await navigator.clipboard.writeText(text)}catch(e){const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()} const toast=$('toast');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800); }
+    document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>copyOutputById(b.dataset.copy)));
+    const categoryNames={prose:'Reading Prose & Poetry',info:'Reading Informational Text',across:'Reading Across Genres & Vocabulary'};
+    function benchmarkGroups(){const g=$('data-grade').value,code=s=>`ELA.${g}.${s}`;return{
+      prose:[[code('R.1.1'),'Literary Elements'],[code('R.1.2'),'Theme'],[code('R.1.3'),'Perspective & Point of View'],[code('R.1.4'),'Poetry']],
+      info:[[code('R.2.1'),'Structure'],[code('R.2.2'),'Central Idea'],[code('R.2.3'),'Purpose & Perspective'],[code('R.2.4'),'Argument']],
+      across:[ [code('R.3.1'),'Interpreting Figurative Language'], ...(Number(g)<=5?[[code('R.3.2'),'Paraphrasing & Summarizing']]:[]), [code('R.3.3'),'Comparative Reading'], ...(Number(g)>=6?[[code('R.3.4'),'Understanding Rhetoric']]:[]), [code('V.1.2'),'Morphology'],[code('V.1.3'),'Context & Connotation']]
+    }}
+    function categoryMarkup(cat,seed={}){const options=benchmarkGroups()[cat].map(([code,name])=>`<label><input type="checkbox" data-benchmark data-cat="${cat}" data-code="${code}" ${seed.missed?.includes(code.split('.').slice(-3).join('.'))?'checked':''}><span><strong>${code}</strong> — ${name}</span></label>`).join('');return `<div class="category-row" data-category="${cat}"><div class="category-name">${categoryNames[cat]}</div><select class="category-status" aria-label="${categoryNames[cat]} performance"><option value="not-entered">Select performance</option><option value="above" ${seed.status==='above'?'selected':''}>Above Standard</option><option value="at" ${seed.status==='at'?'selected':''}>At Standard</option><option value="below" ${seed.status==='below'?'selected':''}>Below Standard</option></select><details class="benchmark-picker"><summary>Benchmarks missed</summary><div class="benchmark-options">${options}</div></details></div>`}
+    let rowCount=0;
+    function addRow(code='',pm1='',pm2='',pm3='',seed={}){rowCount++;const card=document.createElement('article');card.className='student-card';card.innerHTML=`<div class="student-head"><div><label>Anonymous student code or number</label><input data-field="code" aria-label="Anonymous student code or teacher-assigned number" placeholder="Example: 001" value="${code||'Student '+String(rowCount).padStart(3,'0')}"></div><div><label>PM1 level</label><input data-field="pm1" aria-label="PM1 achievement level" type="number" min="1" max="5" value="${pm1}"></div><div><label>PM2 level</label><input data-field="pm2" aria-label="PM2 achievement level" type="number" min="1" max="5" value="${pm2}"></div><div><label>PM3 level</label><input data-field="pm3" aria-label="PM3 achievement level" type="number" min="1" max="5" value="${pm3}"></div><button class="remove-row" aria-label="Remove student">Remove</button></div><div class="category-grid">${categoryMarkup('prose',seed.prose)}${categoryMarkup('info',seed.info)}${categoryMarkup('across',seed.across)}</div>`;card.querySelector('.remove-row').onclick=()=>card.remove();$('student-rows').appendChild(card)}
+    const demoRows=[
+      ['Student 001',1,2,2,{prose:{status:'below',missed:['R.1.2']},info:{status:'at'},across:{status:'below',missed:['R.3.1']}}],
+      ['Student 002',2,2,3,{prose:{status:'at'},info:{status:'below',missed:['R.2.2']},across:{status:'at'}}],
+      ['Student 003',2,3,3,{prose:{status:'at'},info:{status:'at'},across:{status:'below',missed:['V.1.3']}}],
+      ['Student 004',3,3,4,{prose:{status:'above'},info:{status:'at'},across:{status:'above'}}],
+      ['Student 005',1,1,2,{prose:{status:'below',missed:['R.1.1']},info:{status:'below',missed:['R.2.1']},across:{status:'at'}}]
+    ];
+    demoRows.forEach(r=>addRow(...r));
+    $('add-row').addEventListener('click',()=>addRow());
+    $('data-grade').addEventListener('change',()=>{invalidateSpreadsheet();document.querySelectorAll('.student-card').forEach(card=>{card.querySelector('.category-grid').innerHTML=categoryMarkup('prose')+categoryMarkup('info')+categoryMarkup('across')})});
+    function getRows(){return [...document.querySelectorAll('.student-card')].map(card=>{const num=f=>+card.querySelector(`[data-field="${f}"]`).value;const categories={};Object.keys(categoryNames).forEach(cat=>{const row=card.querySelector(`[data-category="${cat}"]`);categories[cat]={status:row.querySelector('.category-status').value,missed:[...row.querySelectorAll('[data-benchmark]:checked')].map(x=>x.dataset.code)}});return{code:card.querySelector('[data-field="code"]').value||'Anonymous student',pm1:num('pm1'),pm2:num('pm2'),pm3:num('pm3'),categories}}).filter(r=>[r.pm1,r.pm2,r.pm3].every(n=>n>=1&&n<=5))}
+    function movement(rows,a,b){return{up:rows.filter(r=>r[b]>r[a]).length,same:rows.filter(r=>r[b]===r[a]).length,down:rows.filter(r=>r[b]<r[a]).length}}
+    let spreadsheetUrl='',pendingSpreadsheetRows=[];
+    function statusLabel(status){return status==='above'?'Above Standard':status==='at'?'At Standard':status==='below'?'Below Standard':'Not Entered'}
+    function benchmarkCatalog(){const catalog={};Object.entries(benchmarkGroups()).forEach(([cat,items])=>items.forEach(([code,name])=>catalog[code]={name,category:categoryNames[cat]}));return catalog}
+    function invalidateSpreadsheet(){if(spreadsheetUrl){URL.revokeObjectURL(spreadsheetUrl);spreadsheetUrl=''}pendingSpreadsheetRows=[];$('spreadsheet-export').hidden=true;$('download-spreadsheet').removeAttribute('href');$('download-spreadsheet').hidden=true;$('create-spreadsheet').hidden=false}
+    function prepareSpreadsheetExport(rows){invalidateSpreadsheet();if(!rows.length)return;pendingSpreadsheetRows=rows;$('spreadsheet-note').textContent=`Analysis completed for ${rows.length} anonymous students. Press Create Excel Workbook to populate the file.`;$('spreadsheet-export').hidden=false}
+    function xmlEscape(value){return String(value??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+    function colName(n){let s='';while(n){s=String.fromCharCode(65+(n-1)%26)+s;n=Math.floor((n-1)/26)}return s}
+    function xlsxCell(value,row,col,style=0){const ref=colName(col)+row;if(typeof value==='number'&&Number.isFinite(value))return `<c r="${ref}" s="${style}"><v>${value}</v></c>`;return `<c r="${ref}" s="${style}" t="inlineStr"><is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`}
+    function xlsxSheet(data,widths,freezeRow=0,filterRef=''){const rows=data.map((line,i)=>{const r=i+1,cells=line.map((item,j)=>{const obj=item&&typeof item==='object'&&!Array.isArray(item)?item:{v:item};return xlsxCell(obj.v,r,j+1,obj.s||0)}).join('');return `<row r="${r}">${cells}</row>`}).join(''),cols=widths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join(''),view=freezeRow?`<sheetViews><sheetView workbookViewId="0"><pane ySplit="${freezeRow}" topLeftCell="A${freezeRow+1}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>`:'<sheetViews><sheetView workbookViewId="0"/></sheetViews>';return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${view}<cols>${cols}</cols><sheetData>${rows}</sheetData>${filterRef?`<autoFilter ref="${filterRef}"/>`:''}</worksheet>`}
+    function crc32(bytes){let crc=-1;for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}return(crc^-1)>>>0}
+    function zipStore(files){const enc=new TextEncoder(),parts=[],central=[];let offset=0;const u16=(v,a,o)=>new DataView(a.buffer,a.byteOffset,a.byteLength).setUint16(o,v,true),u32=(v,a,o)=>new DataView(a.buffer,a.byteOffset,a.byteLength).setUint32(o,v,true);for(const file of files){const name=enc.encode(file.name),data=typeof file.data==='string'?enc.encode(file.data):file.data,crc=crc32(data),head=new Uint8Array(30+name.length);u32(0x04034b50,head,0);u16(20,head,4);u16(0,head,6);u16(0,head,8);u16(0,head,10);u16(0,head,12);u32(crc,head,14);u32(data.length,head,18);u32(data.length,head,22);u16(name.length,head,26);u16(0,head,28);head.set(name,30);parts.push(head,data);const c=new Uint8Array(46+name.length);u32(0x02014b50,c,0);u16(20,c,4);u16(20,c,6);u16(0,c,8);u16(0,c,10);u16(0,c,12);u16(0,c,14);u32(crc,c,16);u32(data.length,c,20);u32(data.length,c,24);u16(name.length,c,28);u16(0,c,30);u16(0,c,32);u16(0,c,34);u16(0,c,36);u32(0,c,38);u32(offset,c,42);c.set(name,46);central.push(c);offset+=head.length+data.length}const centralOffset=offset,centralSize=central.reduce((n,x)=>n+x.length,0),end=new Uint8Array(22);u32(0x06054b50,end,0);u16(0,end,4);u16(0,end,6);u16(files.length,end,8);u16(files.length,end,10);u32(centralSize,end,12);u32(centralOffset,end,16);u16(0,end,20);const total=parts.reduce((n,x)=>n+x.length,0)+centralSize+end.length,out=new Uint8Array(total);let p=0;for(const x of [...parts,...central,end]){out.set(x,p);p+=x.length}return out}
+    function createXlsx(rows){const grade=$('data-grade').value,catalog=benchmarkCatalog(),generated=new Date().toLocaleDateString(),studentData=[[{v:'FAST ELA PM Student Results',s:1}],[{v:'Grade',s:5},grade],[{v:'Growth View',s:5},value('data-window')],[{v:'Class Size',s:5},rows.length],[{v:'Created',s:5},generated],[],['Anonymous Student Code or Number','PM1 Level','PM2 Level','PM3 Level','PM1 to PM2 Change','PM2 to PM3 Change','PM1 to PM3 Change','Reading Prose & Poetry','Reading Informational Text','Reading Across Genres & Vocabulary','Prose & Poetry Missed','Informational Text Missed','Across Genres & Vocabulary Missed'].map(v=>({v,s:2}))];rows.forEach(r=>studentData.push([r.code,r.pm1,r.pm2,r.pm3,r.pm2-r.pm1,r.pm3-r.pm2,r.pm3-r.pm1,statusLabel(r.categories.prose.status),statusLabel(r.categories.info.status),statusLabel(r.categories.across.status),r.categories.prose.missed.map(c=>`${c} — ${catalog[c]?.name||''}`).join('; '),r.categories.info.missed.map(c=>`${c} — ${catalog[c]?.name||''}`).join('; '),r.categories.across.missed.map(c=>`${c} — ${catalog[c]?.name||''}`).join('; ')]));const summaryRows=[],priorityRows=[];Object.entries(benchmarkGroups()).forEach(([cat,items])=>items.forEach(([code,name])=>{const missed=rows.filter(r=>r.categories[cat].missed.includes(code)).length,pct=missed/rows.length,record=[categoryNames[cat],code,name,missed,rows.length,{v:pct,s:3},{v:pct>=.5?'50%+ Priority':'',s:pct>=.5?4:0}];summaryRows.push(record);if(pct>=.5)priorityRows.push(record)}));const summaryData=[[{v:'Class Benchmark Summary',s:1}],[`Grade ${grade}`,`Class size: ${rows.length}`],[{v:'Percent missed uses the full analyzed class as the denominator.',s:5}],[],['Reporting Category','Benchmark Code','Benchmark Description','Students Who Missed','Class Size','Percent of Class Who Missed','Priority'].map(v=>({v,s:2})),...summaryRows],priorityData=[[{v:'Standards Missed by 50% or More',s:1}],[`Grade ${grade}`,`Class size: ${rows.length}`],[{v:'This sheet includes only benchmarks selected as missed for at least half of analyzed students.',s:5}],[],['Reporting Category','Benchmark Code','Benchmark Description','Students Who Missed','Class Size','Percent of Class Who Missed','Priority'].map(v=>({v,s:2})),...(priorityRows.length?priorityRows:[[{v:'No benchmark reached the 50% threshold.',s:5}]])];const files=[
+      {name:'[Content_Types].xml',data:`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`},
+      {name:'_rels/.rels',data:`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`},
+      {name:'xl/workbook.xml',data:`<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Student Results" sheetId="1" r:id="rId1"/><sheet name="Benchmark Summary" sheetId="2" r:id="rId2"/><sheet name="50%+ Missed" sheetId="3" r:id="rId3"/></sheets></workbook>`},
+      {name:'xl/_rels/workbook.xml.rels',data:`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/><Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`},
+      {name:'xl/styles.xml',data:`<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="15"/><name val="Calibri"/></font><font><b/><color rgb="FF15313A"/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0B3B4A"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF147F78"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFE39C"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border/><border><left style="thin"><color rgb="FFD6E1E2"/></left><right style="thin"><color rgb="FFD6E1E2"/></right><top style="thin"><color rgb="FFD6E1E2"/></top><bottom style="thin"><color rgb="FFD6E1E2"/></bottom></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="1" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1"><alignment wrapText="1"/></xf><xf numFmtId="10" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/><xf numFmtId="10" fontId="2" fillId="4" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>`},
+      {name:'xl/worksheets/sheet1.xml',data:xlsxSheet(studentData,[18,11,11,11,15,15,15,24,25,31,40,40,44],7,`A7:M${studentData.length}`)},
+      {name:'xl/worksheets/sheet2.xml',data:xlsxSheet(summaryData,[31,21,32,20,12,27,18],5,`A5:G${summaryData.length}`)},
+      {name:'xl/worksheets/sheet3.xml',data:xlsxSheet(priorityData,[31,21,32,20,12,27,18],5,priorityRows.length?`A5:G${priorityData.length}`:'')}
+    ];return zipStore(files)}
+    function buildSpreadsheet(rows){if(!rows.length)return;if(spreadsheetUrl)URL.revokeObjectURL(spreadsheetUrl);const grade=$('data-grade').value,bytes=createXlsx(rows),blob=new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});spreadsheetUrl=URL.createObjectURL(blob);const link=$('download-spreadsheet'),date=new Date().toISOString().slice(0,10),priorityCount=Object.entries(benchmarkGroups()).flatMap(([cat,items])=>items.map(([code])=>rows.filter(r=>r.categories[cat].missed.includes(code)).length/rows.length)).filter(p=>p>=.5).length;link.href=spreadsheetUrl;link.download=`grade-${grade}-fast-pm-analysis-${date}.xlsx`;link.hidden=false;$('create-spreadsheet').hidden=true;$('spreadsheet-note').textContent=`Workbook populated for ${rows.length} anonymous students. ${priorityCount} benchmark${priorityCount===1?'':'s'} reached the 50% missed threshold.`}
+    $('create-spreadsheet').addEventListener('click',()=>buildSpreadsheet(pendingSpreadsheetRows));
+    $('student-rows').addEventListener('input',invalidateSpreadsheet);
+    $('student-rows').addEventListener('change',invalidateSpreadsheet);
+    $('analyze-data').addEventListener('click',()=>{const rows=getRows();if(!rows.length){$('analysis-box').innerHTML='<h3>Instructional snapshot</h3><p>Enter valid PM1, PM2, and PM3 achievement levels from 1–5 for at least one anonymous student.</p>';return}const m12=movement(rows,'pm1','pm2'),m23=movement(rows,'pm2','pm3'),m13=movement(rows,'pm1','pm3');const pct=n=>Math.round(n/rows.length*100);let categoryHTML='',groupHTML='';const missedCounts={};Object.entries(categoryNames).forEach(([cat,label])=>{const entered=rows.filter(r=>r.categories[cat].status!=='not-entered'),count=s=>entered.filter(r=>r.categories[cat].status===s).length,below=entered.filter(r=>r.categories[cat].status==='below');categoryHTML+=`<div class="category-summary-row"><strong>${label}</strong><div class="status-line"><span class="status-chip">Above: ${count('above')}</span><span class="status-chip">At: ${count('at')}</span><span class="status-chip">Below: ${count('below')}</span></div></div>`;groupHTML+=`<div class="group ${below.length?'urgent':'ready'}"><strong>${label} — Below Standard (${below.length})</strong>${below.length?below.map(r=>r.code).join(', '):'No students entered below standard'}</div>`;rows.forEach(r=>r.categories[cat].missed.forEach(code=>missedCounts[code]=(missedCounts[code]||0)+1))});const missedList=Object.entries(missedCounts).sort((a,b)=>b[1]-a[1]).map(([code,n])=>`${code}: ${n} student${n===1?'':'s'}`).join('<br>')||'No missed benchmarks selected';$('analysis-box').innerHTML=`<h3 style="margin-top:0">PM1 → PM2 → PM3 snapshot</h3><div class="stats"><div class="stat"><b>${pct(m12.up)}%</b>moved up PM1→PM2</div><div class="stat"><b>${pct(m23.up)}%</b>moved up PM2→PM3</div><div class="stat"><b>${pct(m13.up)}%</b>moved up PM1→PM3</div></div><div class="category-summary">${categoryHTML}</div><div class="benchmark-summary"><strong>Most frequently missed benchmarks</strong><br>${missedList}</div><div class="groups">${groupHTML}</div><p class="hint">Above/At/Below results and missed benchmarks come from teacher-entered reports. Verify against the original FAST report before assigning instruction.</p>`;const dataset=rows.map(r=>{const details=Object.entries(categoryNames).map(([cat,label])=>{const d=r.categories[cat];return `${label}: ${d.status==='not-entered'?'not entered':d.status.toUpperCase()}${d.missed.length?`; missed ${d.missed.join(', ')}`:''}`}).join(' | ');return `${r.code}: PM1 ${r.pm1} → PM2 ${r.pm2} → PM3 ${r.pm3}; ${details}`}).join('\n');const prompt=`Act as a Florida Grade ${value('data-grade')} ELA data coach. Analyze this de-identified FAST ${value('data-window')} record. Do not identify or diagnose students.\n\nSTUDENT DATA\n${dataset}\n\nTEACHER NOTE\n${value('data-benchmarks')}\n\nComplete the following:\n1. Calculate class movement for PM1→PM2, PM2→PM3, and PM1→PM3 using counts and percentages. Double-check every calculation.\n2. Summarize how many students are Above Standard, At Standard, and Below Standard in each reporting category: Reading Prose and Poetry, Reading Informational Text, and Reading Across Genres & Vocabulary.\n3. Rank the missed B.E.S.T. benchmarks by frequency and separate observed evidence from instructional inference.\n4. Propose flexible groups. Name the exact benchmark focus and list the anonymous students in each group. A student may belong to more than one group.\n5. For each group, recommend one explicit mini-lesson, one grade-level practice task, one scaffold that preserves rigor, and one mastery check.\n6. Give an individual next step for each student based only on the entered evidence.\n7. Create a two-week progress-monitoring table with benchmark, student code, baseline evidence, mastery target, check date, and instructional response.\n\nImportant: achievement levels and reporting-category labels do not by themselves prove a precise skill deficit. Do not invent scale-score cut points, item results, or official state conclusions. Flag incomplete evidence and ask the teacher to verify the current Florida Department of Education report and district guidance.`;displayPrompt('data',prompt)});
+    const promptLibrary=[
+      {cat:'planning',title:'Complete Standards-Aligned Lesson',desc:'A classroom-ready plan with timing, DOK, evidence, and next steps.',prompt:`Act as an experienced [grade/course] teacher. Create a [lesson length] lesson aligned to [exact benchmark]. Students currently know [prior knowledge] and need [learning need]. Include a student-friendly target and success criteria; minute-by-minute sequence; teacher moves; student actions; materials; academic vocabulary; modeling/think-aloud; guided and independent practice; DOK progression; checks for understanding; two misconceptions with responses; differentiation; exit ticket; reteach; and extension. Keep the benchmark's rigor intact. End with a teacher verification checklist.`},
+      {cat:'planning',title:'Backward Design / UbD',desc:'Plan from durable understanding and mastery evidence.',prompt:`Use Understanding by Design to plan [unit or lesson] for [grade/course] aligned to [benchmark]. Stage 1: identify transfer goal, enduring understanding, essential questions, knowledge, and skills. Stage 2: define acceptable evidence, including an authentic performance task and formative checks. Stage 3: sequence learning experiences from the evidence backward. Include likely misconceptions, DOK, differentiation, feedback cycles, and a final alignment audit.`},
+      {cat:'planning',title:'Fast 20-Minute Planning Rescue',desc:'Get the smallest complete plan when time is tight.',prompt:`I have 20 minutes to finish a lesson plan for [grade/course] on [benchmark/topic]. Build the smallest classroom-ready plan that still includes a clear learning target, success criteria, opening, explicit model, guided practice, grade-level application, formative check, DOK-aligned exit ticket, one scaffold, one extension, likely misconception, and materials. Put everything in one compact table and list only the three items I must prepare before class.`},
+      {cat:'differentiation',title:'Readiness Tiers Without Lowering Rigor',desc:'Create intensive, on-level, and extension pathways.',prompt:`Using [benchmark], create three access pathways for [grade/course]: intensive support, on-level, and extension. Keep the same learning goal and intended cognitive demand. For each pathway, specify prerequisite check, modeling, scaffold, text/task access, student product, questions by Webb DOK, and mastery evidence. Explain what changes across pathways and what must remain constant.`},
+      {cat:'differentiation',title:'ELL / ESOL Language Supports',desc:'Add language access while preserving content demand.',prompt:`Adapt this lesson [paste lesson] for multilingual learners at varied English proficiency levels. Preserve [benchmark] and grade-level thinking. Add a language objective, comprehensible-input moves, visuals, modeled academic vocabulary, sentence frames at increasing complexity, structured partner talk, home-language connections when useful, multiple response modes, checks for understanding, and a plan to fade supports. Do not simplify the core idea or assume one support fits every learner.`},
+      {cat:'differentiation',title:'ESE / 504 / UDL Access Review',desc:'Remove barriers and honor accommodations without changing the target.',prompt:`Review this lesson [paste plan] for barriers in directions, reading load, sensory access, executive function, attention, timing, response format, and participation. For [benchmark], recommend UDL options and ways to honor these listed accommodations [describe without identifiers]. Separate accommodations from modifications, preserve the learning target and rigor, and provide a teacher checklist. Do not diagnose students or invent plan requirements.`},
+      {cat:'differentiation',title:'Scaffold and Fade Plan',desc:'Support access now and build independence over time.',prompt:`For [benchmark and observable gap], create a scaffold-and-fade plan for [grade/course]. Name the barrier, not a student label. Provide the initial teacher support, guided practice cue, student tool, success evidence, and exact fading rule across three lessons. Include what to do if students stall and how to confirm independent transfer at the benchmark's intended DOK.`},
+      {cat:'differentiation',title:'Enrichment and Extension',desc:'Deepen thinking without assigning more of the same work.',prompt:`Create three enrichment options for students who already demonstrate mastery of [benchmark]. Each option must deepen transfer, complexity, perspective, or authentic application rather than add more routine problems. Include a DOK 3 or 4 task, student choice, success criteria, needed resources, and a brief share-out that benefits the full class.`},
+      {cat:'models',title:'Gradual Release: I Do, We Do, You Do',desc:'Move from explicit modeling to independent transfer.',prompt:`Design a [lesson length] gradual-release lesson for [grade/course] aligned to [benchmark]. Include: I Do with a concise think-aloud and worked example; We Do with sequenced prompts and checks for understanding; You Do Together with accountable talk; You Do Alone with a grade-level task; and an exit check. Label DOK, anticipated errors, corrective feedback, scaffolds, and the evidence required to release responsibility.`},
+      {cat:'models',title:'Explicit Instruction',desc:'Teach a precise skill with modeling, practice, and feedback.',prompt:`Create an explicit-instruction lesson for [skill/benchmark]. Activate the smallest necessary prerequisite, state the target, model the skill in clear steps with a think-aloud, use examples and non-examples, provide guided practice with a high response rate, give immediate descriptive feedback, move to independent practice, and close with cumulative review. Add mastery criteria and reteach decision rules.`},
+      {cat:'models',title:'5E Instructional Model',desc:'Sequence Engage, Explore, Explain, Elaborate, and Evaluate.',prompt:`Create a 5E lesson for [grade/course] aligned to [benchmark]. For Engage, elicit prior ideas without pre-teaching the answer. For Explore, provide a student-centered investigation. For Explain, formalize concepts and vocabulary from evidence. For Elaborate, require transfer to a new context. For Evaluate, include self-assessment and a DOK-aligned mastery check. Add timing, teacher questions, student products, differentiation, and misconceptions.`},
+      {cat:'models',title:'Inquiry-Based Learning',desc:'Build a question-driven investigation with evidence and reflection.',prompt:`Design an inquiry lesson around this compelling question: [question]. Align it to [benchmark]. Include an entry event, student questions, source or evidence set, investigation protocol, teacher facilitation questions, academic vocabulary, evidence-based product, DOK progression, formative checkpoints, and reflection. Identify where direct instruction is necessary so inquiry remains accurate and productive.`},
+      {cat:'models',title:'Project-Based Learning',desc:'Plan an authentic product, milestones, and assessment.',prompt:`Design a standards-aligned project-based learning experience for [grade/course] using [benchmark(s)]. Provide an authentic driving question, audience, final product, launch, inquiry tasks, student voice and choice, collaboration roles, milestone calendar, mini-lessons, critique and revision cycle, individual accountability, rubric criteria, DOK 3–4 thinking, and a plan to assess each benchmark separately.`},
+      {cat:'models',title:'Problem-Based Learning',desc:'Use a messy real-world problem to drive learning.',prompt:`Create a problem-based learning sequence for [grade/course] aligned to [benchmark]. Present a realistic, open-ended problem with constraints. Include what students know/need to know, research or data, facilitator questions, group roles, solution criteria, checkpoints, productive struggle, DOK 3 reasoning, individual reflection, and an assessment that distinguishes content mastery from teamwork.`},
+      {cat:'models',title:'Station Rotation',desc:'Build purposeful stations from student evidence.',prompt:`Create a [number]-station rotation for [grade/course] targeting [benchmark]. Include a teacher-led reteach station, collaborative application, independent practice, and technology station only if it improves learning. For each station, give time, directions, materials, student product, DOK, differentiation, accountability, and transition routine. Use this evidence to assign flexible groups: [anonymous data].`},
+      {cat:'models',title:'Workshop Model',desc:'Plan mini-lesson, work time, conferring, and share.',prompt:`Create a workshop-model lesson for [grade/course] aligned to [benchmark]. Include a focused 10-minute mini-lesson with modeling, extended student work time, conferring questions, strategy groups based on [evidence], student choice within clear constraints, mid-workshop interruption if needed, share/reflect, and a collection plan for learning evidence. Add DOK and feedback language.`},
+      {cat:'models',title:'Cooperative Learning / Jigsaw',desc:'Structure accountable interdependence and individual mastery.',prompt:`Design a cooperative-learning jigsaw for [topic/benchmark]. Create expert-group tasks, mixed-group teaching roles, individual accountability, participation supports, academic-language stems, time limits, teacher monitoring questions, and a final individual mastery check. Ensure every student must reason at the benchmark's intended DOK and can access every essential idea.`},
+      {cat:'models',title:'Socratic Seminar',desc:'Plan text-based discussion with equitable participation.',prompt:`Plan a Socratic seminar for [text/topic] aligned to [benchmark]. Provide one opening, three core, and two closing questions; an evidence-tracking tool; academic discussion stems; preparation task; equitable participation structure; teacher observation checklist; DOK 3 reasoning expectations; self-assessment; and a post-seminar written response. Include supports for reluctant speakers and multilingual learners without lowering rigor.`},
+      {cat:'models',title:'Claim-Evidence-Reasoning (CER)',desc:'Teach students to connect evidence to a defensible claim.',prompt:`Create a CER lesson for [grade/course] aligned to [benchmark]. Model how to distinguish claim, relevant evidence, and reasoning; include a worked example and non-example; guided annotation; sentence frames that fade; collaborative practice; an independent DOK 3 response; a concise rubric; feedback codes; and a revision step. Address this common error: [error].`},
+      {cat:'data',title:'PM1 → PM2 → PM3 Growth Analysis',desc:'Analyze full-year movement and benchmark patterns.',prompt:`Analyze this de-identified FAST PM1, PM2, and PM3 dataset: [paste anonymous codes, levels, reporting-category status, and missed benchmarks]. Calculate counts and percentages for PM1→PM2, PM2→PM3, and PM1→PM3. Summarize Above/At/Below by reporting category, rank missed questions and substandards, flag questions missed by at least 45% of the class, separate observation from inference, propose flexible groups, and give a two-week instructional and monitoring plan. Do not invent cut scores.`},
+      {cat:'data',title:'Item Analysis to Reteach Plan',desc:'Turn answer patterns into diagnostic next steps.',prompt:`Analyze this de-identified item analysis for [benchmark]: [item, skill, percent correct, common wrong answer]. Separate observed evidence from inference. Identify the highest-leverage patterns, possible misconceptions, one diagnostic question per pattern, priority order, flexible groups using anonymous codes, and a reteach plus mastery check at the benchmark's intended DOK. Flag weak evidence and do not diagnose students.`},
+      {cat:'intervention',title:'Three-Day Small Group',desc:'Plan a short cycle around one precise skill gap.',prompt:`Design three 20-minute small-group lessons for [grade/course] targeting [benchmark and observable gap]. Use explicit modeling and I Do/We Do/You Do, cumulative review, examples and non-examples, language supports, immediate corrective feedback, DOK progression toward the benchmark, and a final mastery check. Include anonymous group members and decision rules for exit, continue, or intensify.`},
+      {cat:'intervention',title:'Misconception Clinic',desc:'Correct a common error with contrast and reasoning.',prompt:`Students show this observable error: [describe error]. For [benchmark], identify possible misconceptions without diagnosing students. Create a teacher think-aloud, two worked examples, two non-examples, guided questions, a DOK progression, corrective feedback language, and a 3-item check that distinguishes partial understanding from mastery.`},
+      {cat:'intervention',title:'Prerequisite Bridge to Grade-Level Work',desc:'Repair a missing foundation without abandoning the benchmark.',prompt:`For [exact benchmark], identify the smallest essential prerequisite connected to this evidence: [evidence]. Create a 5-minute diagnostic, a just-in-time prerequisite mini-lesson, a bridge task into grade-level work, DOK 2–3 application, and evidence that students are ready to continue. Limit prerequisite teaching so students still spend most of the lesson on the grade-level target.`},
+      {cat:'feedback',title:'Assessment Quality Check',desc:'Audit alignment, DOK, clarity, accessibility, and answers.',prompt:`Audit this assessment [paste items] against [benchmark]. For every item, check exact alignment, Webb DOK, clarity, unnecessary reading load, bias, accessibility, distractor quality, answer accuracy, and what misconception a wrong answer might reveal. Flag weak items, explain the concern, propose a revision, and finish with a benchmark-coverage and DOK-distribution table.`},
+      {cat:'feedback',title:'Descriptive Feedback and Revision',desc:'Give actionable feedback without doing the work for students.',prompt:`Using [rubric/success criteria] and this de-identified student work [paste Student A work], provide one specific strength, one highest-leverage next step, two coaching questions, and a short revision checklist. Tie every comment to evidence in the work, preserve the student's ownership, do not rewrite the response, and include a way for the student to show how the feedback was applied.`},
+      {cat:'e3',title:'E3-Informed Lesson Audit',desc:'Prioritize the smallest changes that strengthen observable instruction.',prompt:`Review this lesson draft [paste lesson] using these non-evaluative planning areas: learning environment; routines and pacing; standards-aligned design; modeling and academic vocabulary; differentiation and scaffolding; engagement, discourse, and productive struggle; purposeful technology; assessment; student self-monitoring; descriptive feedback; reflection; ethical/equitable practice; and appropriate family connection. Return a table of evidence present, missing/unclear, and smallest revision. Prioritize only the top three changes. Do not score or predict an evaluation rating.`},
+      {cat:'e3',title:'E3 Evidence Into the Lesson Plan',desc:'Make strong instructional evidence explicit and practical.',prompt:`Improve this lesson plan [paste plan] so the written plan makes key instructional evidence clear without becoming longer than necessary. Add or strengthen: learning target and success criteria, standards alignment, purposeful pacing, student discourse, differentiation, DOK, checks for understanding, feedback and revision, student self-monitoring, remediation/extension, and teacher reflection. Show additions in a compact before/after table and preserve the teacher's original voice.`}
+    ];
+    function htmlEscape(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    async function copyRawText(text){try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);return}}catch(e){}const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}
+    const bestAlignment=`\n\nFLORIDA B.E.S.T. ALIGNMENT\nDetermine the most applicable Florida B.E.S.T. benchmark(s) for this specific lesson or task. State the exact benchmark code and official benchmark wording available to you, explain why each benchmark applies, and show where it is taught and assessed. If the course or evidence is insufficient to choose accurately, ask the teacher for the missing grade, course, topic, text, or skill instead of guessing. Tell the teacher to verify the final code and wording against the current Florida standards source.`;
+    const alignedPrompt=p=>`${p.prompt}${bestAlignment}`;
+    function renderCards(filter='all'){ $('prompt-cards').innerHTML=promptLibrary.filter(p=>filter==='all'||p.cat===filter).map(p=>{const i=promptLibrary.indexOf(p),text=alignedPrompt(p);return `<article class="prompt-card"><span class="tag">${htmlEscape(p.cat)}</span><h3>${htmlEscape(p.title)}</h3><p>${htmlEscape(p.desc)}</p><textarea class="prompt-template" id="template-${i}" readonly aria-label="${htmlEscape(p.title)} prompt">${htmlEscape(text)}</textarea><button class="card-action" data-library-index="${i}">Copy Visible Prompt</button></article>`}).join(''); document.querySelectorAll('[data-library-index]').forEach(b=>b.onclick=()=>{const p=alignedPrompt(promptLibrary[+b.dataset.libraryIndex]);copyRawText(p).then(()=>{const t=$('toast');t.textContent='Template copied';t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.textContent='Prompt copied'},1800)})}) }
+    renderCards(); document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCards(b.dataset.filter)});
+    function registerWebMCP(){const mc=document.modelContext;if(!mc?.registerTool)return;try{mc.registerTool({name:'build_teacher_prompt',title:'Build teacher prompt',description:'Open a Teacher AI Success prompt builder and generate a lesson, standards intervention, assessment, or E3-informed lesson-check prompt from classroom context.',inputSchema:{type:'object',properties:{task:{type:'string',enum:['lesson','standards','assessment','e3']},grade_course:{type:'string'},standard:{type:'string'},context:{type:'string'}},required:['task','grade_course','standard','context'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){const map={lesson:['lp-grade','lp-standard','lp-context'],standards:['st-grade','st-standard','st-evidence'],assessment:['as-grade','as-standard','as-content'],e3:['e3-grade','e3-standard','e3-draft']};if(!map[input.task]||!input.grade_course||!input.standard||!input.context)throw new Error('Complete task, grade/course, standard, and context.');map[input.task].forEach((id,i)=>$(id).value=[input.grade_course,input.standard,input.context][i]);showTab(input.task);const prompt=builders[input.task]();displayPrompt(input.task,prompt);return{task:input.task,status:'generated',prompt};}})}catch(e){}}
+    registerWebMCP();
+  </script>
+  <script src="fast-upload.js"></script>
+</body>
+</html>
