@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Teacher AI Success schoolwide ELA opportunity analysis for Florida FAST progress monitoring.">
+<title>Schoolwide ELA Opportunity Analysis | Teacher AI Success</title>
+<style>
+:root{--ink:#15313a;--navy:#0b3b4a;--teal:#147f78;--mint:#dff5ef;--gold:#f2b84b;--paper:#fffdfa;--line:#dbe6e7;--muted:#5f7379;--danger:#a33a31;--soft:#e9f4f7}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#edf7f7,#fffdfa 34rem);font-family:Arial,Helvetica,sans-serif;color:var(--ink);line-height:1.5}
+header{max-width:1180px;margin:auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{text-decoration:none;font-weight:800}.brand small{display:block;color:var(--teal)}nav{display:flex;gap:8px;flex-wrap:wrap}nav a{text-decoration:none;padding:8px 10px;border-radius:9px;font-weight:700;color:#35515a}nav a:hover{background:white}
+.wrap{max-width:1180px;margin:auto;padding:10px 20px 50px}.hero{background:var(--navy);color:white;padding:28px;border-radius:24px}.hero h1{margin:0 0 8px;font-size:32px}.hero p{max-width:900px}.privacy{margin-top:14px;background:#ffffff16;border:1px solid #ffffff33;padding:11px 13px;border-radius:12px;font-size:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}button,a.button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--teal);color:white}.secondary{background:#e8edf1;color:var(--ink)}.danger{background:var(--danger);color:white}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #0b3b4a0b}.num{font-size:30px;font-weight:800;margin-top:6px}.muted,.sub{color:var(--muted);font-size:13px}
+h2{margin:28px 0 12px;font-size:22px}h3{margin:0 0 10px;font-size:17px}.two{display:grid;grid-template-columns:1.15fr 1fr;gap:16px}.narrative p{margin:10px 0}.callout{background:var(--mint);border-left:5px solid var(--teal);padding:12px 14px;border-radius:10px;margin:12px 0}
+.bars{display:flex;flex-direction:column;gap:12px}.barrow{display:grid;grid-template-columns:230px 1fr 62px;gap:10px;align-items:center}.track{height:18px;background:#edf1f3;border-radius:999px;overflow:hidden}.fill{height:100%;background:var(--teal);border-radius:999px}
+.filters{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:10px;margin-bottom:12px}.filters input,.filters select{padding:10px;border:1px solid var(--line);border-radius:9px;background:white;font:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:#475569;background:#f8fafc;position:sticky;top:0}.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800}.high{background:#e8f7ec;color:#17663a}.targeted{background:#fff4d8;color:#7d5400}.intensive{background:#fff0f0;color:#8f1f1f}
+.empty{padding:30px;text-align:center;color:var(--muted)}.foot{font-size:12px;color:var(--muted);margin-top:22px}.notice{background:#fff8e8;border:1px solid #f5d993;padding:12px 14px;border-radius:12px;margin:15px 0}
+@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}.barrow{grid-template-columns:150px 1fr 50px}}@media(max-width:560px){nav{display:none}.grid,.filters{grid-template-columns:1fr}.hero h1{font-size:27px}}
+@media print{header,.toolbar{display:none}.wrap{max-width:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="index.html">Teacher AI Success<small>Florida Prompt Lab</small></a>
+<nav><a href="index.html">Prompt Lab</a><a href="index.html#data-panel">FAST PM Data</a><a href="analysis.html">Schoolwide Analysis</a><a href="index.html#library">Prompt Library</a></nav>
+</header>
+<main class="wrap">
+<section class="hero">
+<h1>Schoolwide ELA Opportunity Analysis</h1>
+<p>Turn FAST progress-monitoring data into a simple narrative about where the biggest instructional opportunities are, which students to target first, and which two standards each student should work on next.</p>
+<div class="privacy"><strong>Student Data Privacy:</strong> this page processes the analysis file in your browser. It does not send student names, IDs, scores, or reports to a student database. Data may remain in this browser session until you press <strong>Clear Student Data</strong> or close the session. Always follow school and district data policies.</div>
+</section>
+
+<div class="toolbar">
+<button class="primary" onclick="document.getElementById('jsonFile').click()">Load Analysis JSON</button>
+<input id="jsonFile" type="file" accept=".json" hidden>
+<button class="secondary" onclick="loadDemo()">Load Demo</button>
+<button class="secondary" onclick="window.print()">Print / Save PDF</button>
+<button class="danger" onclick="clearData()">Clear Student Data</button>
+<a class="button secondary" href="analysis-schema.json">View JSON schema</a>
+</div>
+
+<div class="notice"><strong>How to read this page:</strong> “High opportunity” means the current evidence suggests a student may be a strong candidate for targeted movement with focused instruction. It is an instructional planning signal, not a guarantee of a score or school-grade change.</div>
+
+<section class="grid">
+<div class="card"><div class="muted">Students analyzed</div><div id="kpiTotal" class="num">—</div></div>
+<div class="card"><div class="muted">Level 1–2 students</div><div id="kpiLow" class="num">—</div></div>
+<div class="card"><div class="muted">High-opportunity students</div><div id="kpiHigh" class="num">—</div></div>
+<div class="card"><div class="muted">Students already Level 3+</div><div id="kpiProf" class="num">—</div></div>
+</section>
+
+<h2>What the data is telling us</h2>
+<section class="two">
+<div class="card narrative"><h3>Plain-language narrative</h3><div id="narrative" class="empty">Load an analysis file to begin.</div></div>
+<div class="card"><h3>Opportunity by student group</h3><div id="groupBars" class="bars"><div class="empty">No data loaded.</div></div></div>
+</section>
+
+<h2>Standards with the greatest opportunity</h2>
+<section class="two">
+<div class="card"><h3>Top standards to target</h3><div id="standardBars" class="bars"><div class="empty">No data loaded.</div></div></div>
+<div class="card narrative"><h3>Recommended schoolwide focus</h3><div id="standardNarrative" class="empty">No data loaded.</div></div>
+</section>
+
+<h2>Reporting-category picture</h2>
+<section class="card"><div id="categoryBars" class="bars"><div class="empty">No data loaded.</div></div></section>
+
+<h2>Students to target first</h2>
+<section class="card">
+<div class="filters">
+<input id="search" placeholder="Search student name or ID" oninput="renderStudents()">
+<select id="levelFilter" onchange="renderStudents()"><option value="">All levels</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+<select id="oppFilter" onchange="renderStudents()"><option value="">All opportunity groups</option><option>High</option><option>Targeted</option><option>Developing</option><option>Intensive</option></select>
+<select id="standardFilter" onchange="renderStudents()"><option value="">All standards</option></select>
+</div>
+<div style="overflow:auto;max-height:560px"><table>
+<thead><tr><th>Student Name</th><th>Student ID</th><th>Level</th><th>Scale</th><th>Opportunity</th><th>Target standard 1</th><th>Target standard 2</th><th>Next goal</th></tr></thead>
+<tbody id="studentRows"><tr><td colspan="8" class="empty">No student data loaded.</td></tr></tbody>
+</table></div>
+</section>
+<p class="foot">Use this analysis with PM results, classroom evidence, and teacher judgment. It does not predict or guarantee a school accountability grade.</p>
+</main>
+
+<script>
+let DATA=null;
+const demo={
+"summary":{"totalStudents":108,"level1":65,"level2":43,"level3":0,"level4":0,"level5":0,"highOpportunityStudents":34},
+"opportunityGroups":[{"name":"High opportunity","count":34,"percent":31},{"name":"Targeted opportunity","count":15,"percent":14},{"name":"Developing","count":26,"percent":24},{"name":"Intensive","count":33,"percent":31}],
+"reportingCategories":[{"name":"Reading Prose & Poetry","belowPct":55,"atNearPct":45},{"name":"Reading Informational Text","belowPct":53,"atNearPct":47},{"name":"Reading Across Genres & Vocabulary","belowPct":67,"atNearPct":33}],
+"standards":[{"code":"ELA.10.V.1.3","title":"Context & Connotation","studentCount":94,"opportunityScore":92},{"code":"ELA.10.R.3.4","title":"Understanding Rhetoric","studentCount":91,"opportunityScore":90},{"code":"ELA.10.R.2.2","title":"Central Idea","studentCount":86,"opportunityScore":88},{"code":"ELA.10.R.2.3","title":"Purpose & Perspective","studentCount":83,"opportunityScore":86}],
+"students":[{"name":"Student A","id":"100001","level":2,"scaleScore":245,"opportunity":"High","opportunityRank":4,"target1":{"code":"ELA.10.V.1.3","title":"Context & Connotation"},"target2":{"code":"ELA.10.R.3.4","title":"Understanding Rhetoric"},"nextGoal":"Level 3"},{"name":"Student B","id":"100002","level":2,"scaleScore":242,"opportunity":"High","opportunityRank":4,"target1":{"code":"ELA.10.R.2.2","title":"Central Idea"},"target2":{"code":"ELA.10.R.2.3","title":"Purpose & Perspective"},"nextGoal":"Level 3"},{"name":"Student C","id":"100003","level":1,"scaleScore":228,"opportunity":"Developing","opportunityRank":2,"target1":{"code":"ELA.10.R.1.2","title":"Theme"},"target2":{"code":"ELA.10.V.1.3","title":"Context & Connotation"},"nextGoal":"Level 2"}]};
+document.getElementById('jsonFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{DATA=JSON.parse(await f.text());sessionStorage.setItem('teacherAISuccessAnalysis',JSON.stringify(DATA));renderAll()}catch(err){alert('Could not read this analysis file. Please use the expected JSON format.')}});
+const saved=sessionStorage.getItem('teacherAISuccessAnalysis');if(saved){try{DATA=JSON.parse(saved);renderAll()}catch(e){}}
+function loadDemo(){DATA=demo;sessionStorage.setItem('teacherAISuccessAnalysis',JSON.stringify(DATA));renderAll()}
+function clearData(){if(!confirm('Clear all student data and analysis from this browser session?'))return;DATA=null;sessionStorage.removeItem('teacherAISuccessAnalysis');document.getElementById('jsonFile').value='';document.querySelectorAll('.num').forEach(x=>x.textContent='—');['narrative','groupBars','standardBars','standardNarrative','categoryBars'].forEach(id=>document.getElementById(id).innerHTML='<div class="empty">No data loaded.</div>');document.getElementById('studentRows').innerHTML='<tr><td colspan="8" class="empty">No student data loaded.</td></tr>';document.getElementById('standardFilter').innerHTML='<option value="">All standards</option>'}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}function pct(n){return Math.round(Number(n||0))}
+function renderAll(){if(!DATA)return;const s=DATA.summary||{};document.getElementById('kpiTotal').textContent=s.totalStudents??'—';document.getElementById('kpiLow').textContent=Number(s.level1||0)+Number(s.level2||0);document.getElementById('kpiHigh').textContent=s.highOpportunityStudents??'—';document.getElementById('kpiProf').textContent=Number(s.level3||0)+Number(s.level4||0)+Number(s.level5||0);renderNarrative();renderGroupBars();renderStandardBars();renderCategoryBars();fillStandardFilter();renderStudents()}
+function renderNarrative(){const s=DATA.summary||{},cats=DATA.reportingCategories||[],standards=DATA.standards||[],weak=[...cats].sort((a,b)=>(b.belowPct||0)-(a.belowPct||0))[0],top=[...standards].sort((a,b)=>(b.opportunityScore||b.percent||0)-(a.opportunityScore||a.percent||0)).slice(0,2);let p=[];p.push('<p><strong>Big picture:</strong> '+esc(s.level1||0)+' students are at Level 1 and '+esc(s.level2||0)+' are at Level 2. A practical strategy is to combine fast movement for students already close to the next level with deeper support for students who need more foundational work.</p>');if(s.highOpportunityStudents!=null)p.push('<div class="callout"><strong>Best immediate opportunity:</strong> '+esc(s.highOpportunityStudents)+' students are flagged as high opportunity. Give these students short, focused instruction tied to the exact standards holding them back.</div>');if(weak)p.push('<p><strong>Weakest reporting area:</strong> '+esc(weak.name)+' has the largest share below target ('+pct(weak.belowPct)+'%).</p>');if(top.length)p.push('<p><strong>Standards to target first:</strong> '+top.map(x=>esc(x.code)+' '+esc(x.title||'')).join(' and ')+'. Teach, check, and revisit these skills in small groups.</p>');p.push('<p><strong>Two-standard rule:</strong> assign each student one immediate target and one next-step target. Recheck mastery every 1–2 weeks and regroup when the evidence changes.</p>');document.getElementById('narrative').innerHTML=p.join('')}
+function barHTML(label,val,note=''){const v=Math.max(0,Math.min(100,pct(val)));return '<div class="barrow"><div><strong>'+esc(label)+'</strong>'+(note?'<div class="sub">'+esc(note)+'</div>':'')+'</div><div class="track"><div class="fill" style="width:'+v+'%"></div></div><div><strong>'+v+'%</strong></div></div>'}
+function renderGroupBars(){const g=DATA.opportunityGroups||[];document.getElementById('groupBars').innerHTML=g.length?g.map(x=>barHTML(x.name,x.percent,x.count!=null?x.count+' students':'')).join(''):'<div class="empty">No opportunity-group data.</div>'}
+function renderStandardBars(){const l=[...(DATA.standards||[])].sort((a,b)=>(b.opportunityScore||b.percent||0)-(a.opportunityScore||a.percent||0)).slice(0,8);document.getElementById('standardBars').innerHTML=l.length?l.map(x=>barHTML(x.code+' '+(x.title||''),x.opportunityScore??x.percent,x.studentCount!=null?x.studentCount+' students':'')).join(''):'<div class="empty">No standards data.</div>';document.getElementById('standardNarrative').innerHTML=l.length?'<p><strong>Start with '+esc(l[0].code)+'.</strong> It has the largest current opportunity based on the uploaded evidence.</p>'+(l[1]?'<p><strong>Second focus: '+esc(l[1].code)+'.</strong> Use it as the next schoolwide target or second standard for students who are ready.</p>':'')+'<div class="callout">Teach fewer standards more deeply. Use short mastery checks, then move students to the next target.</div>':'<div class="empty">No standards data.</div>'}
+function renderCategoryBars(){const c=DATA.reportingCategories||[];document.getElementById('categoryBars').innerHTML=c.length?c.map(x=>barHTML(x.name,x.belowPct,pct(x.atNearPct)+'% At/Near')).join(''):'<div class="empty">No reporting-category data.</div>'}
+function fillStandardFilter(){const sel=document.getElementById('standardFilter'),v=new Set();(DATA.students||[]).forEach(s=>{if(s.target1?.code)v.add(s.target1.code);if(s.target2?.code)v.add(s.target2.code)});sel.innerHTML='<option value="">All standards</option>'+[...v].sort().map(x=>'<option>'+esc(x)+'</option>').join('')}
+function renderStudents(){if(!DATA)return;const q=document.getElementById('search').value.toLowerCase(),lvl=document.getElementById('levelFilter').value,opp=document.getElementById('oppFilter').value,std=document.getElementById('standardFilter').value;let rows=(DATA.students||[]).filter(s=>(!q||((s.name||'')+' '+(s.id||'')).toLowerCase().includes(q))&&(!lvl||String(s.level)===lvl)&&(!opp||String(s.opportunity||'').toLowerCase().includes(opp.toLowerCase()))&&(!std||s.target1?.code===std||s.target2?.code===std));rows.sort((a,b)=>(b.opportunityRank||0)-(a.opportunityRank||0)||(Number(b.scaleScore||0)-Number(a.scaleScore||0)));document.getElementById('studentRows').innerHTML=rows.length?rows.map(s=>{const o=String(s.opportunity||'').toLowerCase(),cls=o.includes('high')?'high':o.includes('intensive')?'intensive':'targeted';return '<tr><td><strong>'+esc(s.name)+'</strong></td><td>'+esc(s.id)+'</td><td>'+esc(s.level)+'</td><td>'+esc(s.scaleScore??'')+'</td><td><span class="pill '+cls+'">'+esc(s.opportunity||'')+'</span></td><td><strong>'+esc(s.target1?.code||'')+'</strong><div class="sub">'+esc(s.target1?.title||'')+'</div></td><td><strong>'+esc(s.target2?.code||'')+'</strong><div class="sub">'+esc(s.target2?.title||'')+'</div></td><td>'+esc(s.nextGoal||'')+'</td></tr>'}).join(''):'<tr><td colspan="8" class="empty">No students match these filters.</td></tr>'}
+</script>
+</body>
+</html>
