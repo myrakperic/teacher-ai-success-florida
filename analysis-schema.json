@@ -1,0 +1,7 @@
+{
+  "summary":{"totalStudents":0,"level1":0,"level2":0,"level3":0,"level4":0,"level5":0,"highOpportunityStudents":0},
+  "opportunityGroups":[{"name":"High opportunity","count":0,"percent":0},{"name":"Targeted opportunity","count":0,"percent":0},{"name":"Developing","count":0,"percent":0},{"name":"Intensive","count":0,"percent":0}],
+  "reportingCategories":[{"name":"Reading Prose & Poetry","belowPct":0,"atNearPct":0},{"name":"Reading Informational Text","belowPct":0,"atNearPct":0},{"name":"Reading Across Genres & Vocabulary","belowPct":0,"atNearPct":0}],
+  "standards":[{"code":"ELA.10.R.2.2","title":"Central Idea","studentCount":0,"percent":0,"opportunityScore":0}],
+  "students":[{"name":"Student Name","id":"Student ID","level":2,"scaleScore":0,"opportunity":"High","opportunityRank":4,"target1":{"code":"ELA.10.R.2.2","title":"Central Idea"},"target2":{"code":"ELA.10.R.2.3","title":"Purpose & Perspective"},"nextGoal":"Level 3"}]
+}
