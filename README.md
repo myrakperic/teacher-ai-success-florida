@@ -7,12 +7,13 @@ An interactive, privacy-conscious website that helps Florida teachers:
 - analyze achievement levels, reporting categories, standards, substandards, and question-level performance;
 - highlight questions and standards missed by at least 45% of assessed students;
 - review aggregate ELL quantitative results without labeling individual students;
+- keep Student Name and Student ID attached to teacher-facing FAST analysis and comparison reports;
 - download teacher-ready Excel workbooks and printable PDF reports; and
 - clear all uploaded information from the browser after analysis.
 
 ## Privacy
 
-The repository contains website code only. It does **not** contain student CSV files, student names, student numbers, individual ELL labels, Section 504 information, or generated student reports. FAST files are processed locally in the teacher's browser and are not saved by this website.
+The repository contains website code only. It does **not** contain uploaded student CSV/XLSX files or generated student reports. FAST files are processed locally in the teacher's browser. The FAST analysis may display Student Name and Student ID in the current browser session and teacher-generated downloads; use the Clear Uploaded Data control when finished and follow school/district data policies.
 
 ## Live website
 
