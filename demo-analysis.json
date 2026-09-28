@@ -1,0 +1,7 @@
+{
+  "summary":{"totalStudents":3,"level1":1,"level2":2,"level3":0,"level4":0,"level5":0,"highOpportunityStudents":2},
+  "opportunityGroups":[{"name":"High opportunity","count":2,"percent":67},{"name":"Developing","count":1,"percent":33}],
+  "reportingCategories":[{"name":"Reading Prose & Poetry","belowPct":33,"atNearPct":67},{"name":"Reading Informational Text","belowPct":33,"atNearPct":67},{"name":"Reading Across Genres & Vocabulary","belowPct":67,"atNearPct":33}],
+  "standards":[{"code":"ELA.10.V.1.3","title":"Context & Connotation","studentCount":3,"opportunityScore":92},{"code":"ELA.10.R.3.4","title":"Understanding Rhetoric","studentCount":2,"opportunityScore":89}],
+  "students":[{"name":"Student A","id":"100001","level":2,"scaleScore":245,"opportunity":"High","opportunityRank":4,"target1":{"code":"ELA.10.V.1.3","title":"Context & Connotation"},"target2":{"code":"ELA.10.R.3.4","title":"Understanding Rhetoric"},"nextGoal":"Level 3"},{"name":"Student B","id":"100002","level":2,"scaleScore":242,"opportunity":"High","opportunityRank":4,"target1":{"code":"ELA.10.R.2.2","title":"Central Idea"},"target2":{"code":"ELA.10.R.2.3","title":"Purpose & Perspective"},"nextGoal":"Level 3"},{"name":"Student C","id":"100003","level":1,"scaleScore":228,"opportunity":"Developing","opportunityRank":2,"target1":{"code":"ELA.10.R.1.2","title":"Theme"},"target2":{"code":"ELA.10.V.1.3","title":"Context & Connotation"},"nextGoal":"Level 2"}]
+}
